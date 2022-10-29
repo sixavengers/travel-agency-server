@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+// const validator = require('validator');
 const TourSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -33,7 +33,11 @@ const TourSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "ExtraInfo"
         }
-    ]
+    ],
+    isAvailable: {
+        type: Boolean,
+        default: true
+    }
 },{timestamps:true});
 
 const Tour = mongoose.model('Tour', TourSchema);
