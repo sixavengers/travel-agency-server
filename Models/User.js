@@ -34,7 +34,13 @@ const UserSchema = new mongoose.Schema({
         type:String,
         enum:['user','manager','admin','tour-guide'],
         required: [true, 'Please add a role'],
-    }
+    },
+    tourInfo: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Tour"
+        }
+    ]
 },{
     timestamps:true
 })
