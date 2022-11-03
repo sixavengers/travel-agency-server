@@ -27,9 +27,6 @@ app.get("/", (req, res) => {
 
 /* import router */
 const userRouter = require("./../routes/user.route");
-
-
-
 /*  users route */
 app.use("/api/users", userRouter);
 
