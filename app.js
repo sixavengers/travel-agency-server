@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000;
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dbConnection = require("../config/database");
-
-
+const port = process.env.PORT || 5000;
+require('dotenv').config()
+const colors = require('colors');
+const dbConnection = require("./config/database");
+/* import router */
+const userRouter = require("./routes/user.route");
+const ErrorHandeler = require("./helpers/error.handeler");
 // apply middle wares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,19 +27,14 @@ dbConnection.databaseConnection();
 app.get("/", (req, res) => {
     res.send({success: true, message: "Welcome to the TRAVEL AGENCY API"});
 });
+app.listen(port,()=>{
+    console.log(`Server is running on port ${port}`.yellow.bold);
+})
 
-/* import router */
-const userRouter = require("./../routes/user.route");
 /*  users route */
 app.use("/api/users", userRouter);
-
-
-
-
-
-
-
-
-
-
-module.exports = app;
+app.all("*", (req, res) => {
+    res.send("404 not found")
+    })
+//------------------->>>>Global Error Handler<<<<------------------- 
+app.use(ErrorHandeler)

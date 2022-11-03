@@ -1,14 +1,7 @@
 const app = require("./app");
 const port = process.env.PORT || 5000;
-
-
-
-
 // listen port
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-
 /* Global Error Handle */
 app.use((req, res, next) => {
   res.status(422).send({ error: "No route found" });
@@ -16,7 +9,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.status(422).send({ error: err.message });
-  console.log(err);
+  console.log("error from inde.js",err);
   if (req.headersSent) {
     return next(err);
   }
