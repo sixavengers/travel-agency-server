@@ -3,7 +3,7 @@ const userServices = require('../services/user.service');
 const register = async (req, res) => {
    try {
     const user = await userServices.registerUserService(req.body)
-    res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user});
+    res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user:user.user,token:user.token });
     ;
    } catch (error) {
      res.status(500).send({ success: false, message: error?.message });

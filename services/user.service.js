@@ -1,5 +1,7 @@
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
+const { genaretCode } = require("../helpers/accountValidationToken");
+const { sendWelcomeMail } = require("../helpers/WelcomeMail");
 exports.registerUserService = async(userInfo) => {
     try {
         const {
@@ -19,7 +21,12 @@ exports.registerUserService = async(userInfo) => {
         password: hastPassword,
         ...userInfo
     });
-    return user;
+    const emailVerificationToken = genaretCode({ id: user._id.toString() }, "30m");
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    // send email
+sendWelcomeMail(user?.name,email,url)
+const token = genaretCode({ id: user._id.toString() }, "7d");
+    return { user, token };
     } catch (error) {
         throw error;
     }
