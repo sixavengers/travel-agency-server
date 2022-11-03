@@ -33,7 +33,30 @@ const UserSchema = new mongoose.Schema({
     role:{
         type:String,
         enum:['user','manager','admin','tour-guide'],
-        required: [true, 'Please add a role'],
+        default:'user'
+    },
+    address:{
+  type:String,
+  trim:0
+    },
+    phone:{
+   type:String,
+    trim:0
+    },
+    avatar:{
+        type:String,
+        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVqhTJArI2RLSSzlY0X1twqrkjMrScCsRWwQ&usqp=CAU',
+        validate:{
+            validator:(value)=>validator.isURL(value),
+        }
+    },
+    profileImg:{
+        type:String,
+        trim:true
+    },
+    isverify:{
+        type:Boolean,
+        default:false
     },
     tourInfo: [
         {
