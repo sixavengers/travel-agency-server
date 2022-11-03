@@ -8,7 +8,7 @@ const oAuth2Client = new google.auth.OAuth2(
 )
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
-module.exports.sendWelcomeMail=async ({name,email,url})=>{
+module.exports.sendWelcomeMail=async (name,email,url)=>{
 const accessToken = await oAuth2Client.getAccessToken();
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -21,6 +21,7 @@ let transporter = nodemailer.createTransport({
         accessToken: accessToken    
     }
 })
+console.log(email);
 
 let mailOptions = {
     from: process.env.EMAIL,

@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 require('dotenv').config()
-const colors = require('colors');
 const dbConnection = require("./config/database");
 /* import router */
 const userRouter = require("./routes/user.route");
@@ -28,7 +27,7 @@ app.get("/", (req, res) => {
     res.send({success: true, message: "Welcome to the TRAVEL AGENCY API"});
 });
 app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`.yellow.bold);
+    console.log(`Server is running on port ${port}`);
 })
 
 /*  users route */
