@@ -15,7 +15,8 @@ const register = async (req, res) => {
 // ------Account Activate
 const activateAccount = async(req,res)=>{
    try {
-    const {token,id} = req.body;
+    const id = req.userData.id
+    const {token} = req.body;
     const user = await userServices.activateAccountService(token,id);
     if(!user){
       return res.status(400).send({success:false,message:"Invalid Token"});

@@ -19,9 +19,6 @@ app.use(express.json());
 
 // Connect to Database
 dbConnection.databaseConnection();
-
-
-
 /* Test Routes */
 app.get("/", (req, res) => {
     res.send({success: true, message: "Welcome to the TRAVEL AGENCY API"});
