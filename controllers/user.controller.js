@@ -23,12 +23,12 @@ const register = async (req, res) => {
       
     });
     // -----------------Generate email verification token-----------------
-    const emailVerificationToken = genaretCode({ id: user._id.toString() }, "30m");
+    const emailVerificationToken =  genaretCode({ id: newUser._id.toString() }, "30m");
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
     // -----------------Send welcome email-----------------
-   sendWelcomeMail(user?.name,user.email,url,"Welcome To Travel Agency");
+   sendWelcomeMail(newUser?.name,newUser?.email,url,"Welcome To Travel Agency");
   //  -----------------Create and assign token-----------------
-   const token = genaretCode({ id: user._id.toString() }, "7d");
+   const token = genaretCode({ id: newUser._id.toString() }, "7d");
     if(!newUser){
       return res.status(400).send({success:false,message:"User Can't Be Created"});
     }

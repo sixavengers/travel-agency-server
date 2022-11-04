@@ -3,7 +3,7 @@ exports.registerUserService = async(userInfo) => {
         const {email} = userInfo;
         // --------find user by email
         const user = await User?.findOne({ email })
-        return  user;
+        return user;
 }
 exports.activateAccountService = async(id)=>{
 
