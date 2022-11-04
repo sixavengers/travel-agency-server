@@ -11,7 +11,7 @@ router.post("/register", userController.register);
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post("/login", userController.login);
+router.post("/activate", userController.login);
 
 // @route GET api/users/current
 // @desc Return current user

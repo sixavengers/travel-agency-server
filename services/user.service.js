@@ -15,9 +15,9 @@ exports.registerUserService = async(userInfo) => {
     }
     const hashPassword = await bcrypt.hash(password, 12);
     const user = await User.create({
-        email,
+        ...userInfo,
         password: hashPassword,
-        ...userInfo
+      
     });
     const emailVerificationToken = genaretCode({ id: user._id.toString() }, "30m");
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
