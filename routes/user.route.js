@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const {authUser} = require("../helpers/authVerify")
 
 // // init controller
  const userController = require("../controllers/user.controller");
@@ -7,11 +8,10 @@ const router = require("express").Router();
 // @desc Register user
 // @access Public
 router.post("/register", userController.register);
-
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post("/activate", userController.login);
+router.post("/activate", authUser,userController.activateAccount);
 
 // @route GET api/users/current
 // @desc Return current user

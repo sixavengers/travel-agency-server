@@ -9,7 +9,14 @@ const register = async (req, res) => {
      res.status(500).send({ success: false, message: error?.message });
    }
 };
-
+// ------Account Activate
+const activateAccount = async(req,res)=>{
+   try {
+    
+   } catch (error) {
+    res.status(500).send({ success: false, message: error?.message });
+   }
+}
 /* Login User */
 const login = async (req, res) => {
   res.send({ success: true, message: "Login User" });
