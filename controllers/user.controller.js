@@ -42,6 +42,7 @@ const sendVerification = async(req,res)=>{
   try {
     const id = req.userData.id;
     const user = await userServices.sendverificationAgainServices(id);
+    // console.log(user.email);
     if (user.isverify === true) {
       return res.status(400).json({ messages: "This account is already verified" });
     }
@@ -50,7 +51,7 @@ const sendVerification = async(req,res)=>{
       "30m"
     );
     const url = `${process.env.BASE_URL}/activate/${emailvarificationToken}`;
-    sendActivateAcountMail(user?.email, user?.first_name, url);
+    sendActivateAcountMail(user?.name, user?.email, url);
     return res.status(200).json({
       messages: "Email Verification Link has been sent to your email",
     });
