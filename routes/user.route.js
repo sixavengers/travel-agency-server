@@ -24,5 +24,5 @@ router.post("/finduser",userController.findUser);
 // @desc Return current user
 // @access Private
 router.get("/current",  userController.currentUser);
-
+router.post('/sendResetPasswordCode',userController.sendResetPasswordCode);
 module.exports = router;

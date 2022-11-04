@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../Models/User');
 const userServices = require('../services/user.service');
+const Code = require('../Models/Code');
+const genaretCodeReset = require('../helpers/genaretCodeReset');
 /* Register User */
 const register = async (req, res) => {
    try {
@@ -106,5 +108,22 @@ const findUser = async(req,res)=>{
     res.status(500).json({ messages: error?.messages });
   }
 }
+const sendResetPasswordCode = async(req,res)=>{
+  try {
+    const {email} = req.body;
+    const user = await User.findOne({email}).select("-password");
+    await Code.findOneAndRemove({ user: user._id });
+    const code = genaretCodeReset(5);
+    const SaveCode = await new Code({
+      code,
+      user: user._id,
+    }).save();
+    return res.status(200).json({
+      messages: "Email Reset Code Has Been Send To Your Email",
+    });
+  } catch (error) {
+    res.status(500).json({ messages: error?.messages });
+  }
+}
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,findUser };
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,findUser,sendResetPasswordCode };
