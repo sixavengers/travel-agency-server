@@ -43,13 +43,20 @@ const activateAccount = async(req,res)=>{
    try {
     const id = req.userData.id
     const {token} = req.body;
+    // -----------------Check if token is valid-----------------
     const userByid = jwt.verify(token, process.env.SECRET_TOKEN);
+    // -----------------Check if user already verified-----------------
     const user = await userServices.activateAccountService(id);
+    if(!user){
+      // -----------------If user not found-----------------
+      return res.status(400).json({ messages: "User Not Found" });
+    }
+    // -----------------Check user valid or not-----------------
     if(id !== userByid.id){
       return res.status(400).json({ messages:("You Don't Have The Authorization to Complete The Operation")});
   }
-  if (user.isverify == true) {
-      throw new Error("Your Account Is Already Activated");
+  if (user.isverify === true) {
+    return res.status(400).json("Your Account Is Already Activated");
     }
     user.isverify = true;
    await user.save();
