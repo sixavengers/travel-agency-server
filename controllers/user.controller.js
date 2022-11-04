@@ -4,6 +4,7 @@ const userServices = require('../services/user.service');
 /* Register User */
 const register = async (req, res) => {
    try {
+    // -----------------Get user info from request body
     const user = await userServices.registerUserService(req.body)
     if(!user){
       return res.status(400).send({success:false,message:"User Can't Be Created"});
