@@ -42,6 +42,26 @@ const findUser = async(req,res)=>{
       res.status(500).json({ messages: error?.messages });
     }
   }
+ const validateResetCode = async (req, res) => {
+    try {
+      const { email, code } = req.body;
+    //   -----------------Find user by email-----------------
+      const user = await User.findOne({ email });
+    //   -----------------get db code with user id-----------------
+      const dbcode = await Code.findOne({ user: user._id });
+    //   if code is not valid return error
+      if (dbcode.code !== code) {
+        return res.status(400).json({
+          messages: "Code Does Not Valid",
+        });
+      }
+      return res.status(200).json({
+        messages: "Code Valid",
+      });
+    } catch (error) {
+      res.status(500).json({ messages: error?.messages });
+    }
+  };
 //   -----------------Reset Password-----------------
   const changesPassword = async (req, res) => {
         try {
@@ -63,5 +83,5 @@ const findUser = async(req,res)=>{
         }
       };
     module.exports = {
-        findUser,sendResetPasswordCode,changesPassword
+        findUser,sendResetPasswordCode,changesPassword,validateResetCode
     }
