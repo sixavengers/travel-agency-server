@@ -87,6 +87,7 @@ const sendVerificationEmail = async(req,res)=>{
     if (user.isverify === true) {
       return res.status(400).json({ messages: "This account is already verified" });
     }
+    // -----------------Generate email verification token-----------------
     const emailvarificationToken = genaretCode(
       { id: user._id.toString() },
       "30m"
@@ -114,13 +115,21 @@ const findUser = async(req,res)=>{
 const sendResetPasswordCode = async(req,res)=>{
   try {
     const {email} = req.body;
+    // -----------------Find user by email and remove password-----------------
     const user = await User.findOne({email}).select("-password");
+    // -----------------Check if user not found-----------------
+    if(!user){
+      return res.status(400).json({ messages: "User Not Found" });
+    }
+    // ------------------remove old code if exist-----------------
     await Code.findOneAndRemove({ user: user._id });
     const code = genaretCodeReset(5);
+    // -----------------Create new code and save in database-----------------
     const SaveCode = await new Code({
       code,
       user: user._id,
     }).save();
+    // -----------------Send reset code email-----------------
     sendResetCodeEmail(user.name,user.email,code,"Send Password Reset Code")
     return res.status(200).json({
       messages: "Email Reset Code Has Been Send To Your Email",
