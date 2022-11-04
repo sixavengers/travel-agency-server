@@ -28,3 +28,20 @@ const token = genaretCode({ id: user._id.toString() }, "7d");
         throw error;
     }
 }
+exports.activateAccountService = async(token,id)=>{
+try {
+    const user = jwt.verify(token, process.env.SECRET_TOKEN);
+    const check = await User.findById(id);
+    if(id !== user.id){
+        throw new Error({message:"You Don't Have The Authorization to Complete The Opeeation"});
+    }
+    if (check.isverify == true) {
+        throw new Error({message:"Your Account Is Already Activated"});
+      }
+    check.isverify = true;
+    await check.save();
+    return check;
+} catch (error) {
+    throw error;
+}
+}

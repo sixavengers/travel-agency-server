@@ -3,6 +3,9 @@ const userServices = require('../services/user.service');
 const register = async (req, res) => {
    try {
     const user = await userServices.registerUserService(req.body)
+    if(!user){
+      return res.status(400).send({success:false,message:"User Can't Be Created"});
+    }
     res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user:user.user,token:user.token });
     ;
    } catch (error) {
@@ -12,7 +15,12 @@ const register = async (req, res) => {
 // ------Account Activate
 const activateAccount = async(req,res)=>{
    try {
-    
+    const {token,id} = req.body;
+    const user = await userServices.activateAccountService(token,id);
+    if(!user){
+      return res.status(400).send({success:false,message:"Invalid Token"});
+    }
+    res.send({ success: true, message: "Account Activated Successfully",user:user.user});
    } catch (error) {
     res.status(500).send({ success: false, message: error?.message });
    }
