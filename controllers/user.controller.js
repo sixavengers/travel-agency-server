@@ -6,6 +6,7 @@ const User = require('../Models/User');
 const userServices = require('../services/user.service');
 const Code = require('../Models/Code');
 const genaretCodeReset = require('../helpers/genaretCodeReset');
+const { sendResetCodeEmail } = require('../helpers/sendResetCodeEmail');
 /* Register User */
 const register = async (req, res) => {
    try {
@@ -118,6 +119,7 @@ const sendResetPasswordCode = async(req,res)=>{
       code,
       user: user._id,
     }).save();
+    sendResetCodeEmail(user.name,user.email,code,"Send Password Reset Code")
     return res.status(200).json({
       messages: "Email Reset Code Has Been Send To Your Email",
     });
