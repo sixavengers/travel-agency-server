@@ -40,12 +40,10 @@ const currentUser = async (req, res) => {
 // send verification email again
 const sendVerification = async(req,res)=>{
   try {
-    const id = req.user.id;
+    const id = req.userData.id;
     const user = await userServices.sendverificationAgainServices(id);
-    if (user.verified === true) {
-      return res
-        .status(400)
-        .json({ messages: "This account is already verified" });
+    if (user.isverify === true) {
+      return res.status(400).json({ messages: "This account is already verified" });
     }
     const emailvarificationToken = genaretCode(
       { id: user._id.toString() },
