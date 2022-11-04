@@ -37,15 +37,15 @@ try {
     const check = await User.findById(id);
     // console.log(check);
     if(id !== user.id){
-        throw new Error({message:"You Don't Have The Authorization to Complete The Opeeation"});
+        throw new Error("You Don't Have The Authorization to Complete The Opeeation");
     }
     if (check.isverify == true) {
-        throw new Error({message:"Your Account Is Already Activated"});
+        throw new Error("Your Account Is Already Activated");
       }
     check.isverify = true;
     await check.save();
     return check;
 } catch (error) {
-    throw new Error({message:"account activation failed"});
+    throw new Error("account activation failed");
 }
 }
