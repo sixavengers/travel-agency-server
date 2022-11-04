@@ -2,6 +2,7 @@ const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 const { genaretCode } = require("../helpers/accountValidationToken");
 const { sendWelcomeMail } = require("../helpers/WelcomeMail");
+const jwt = require("jsonwebtoken");
 exports.registerUserService = async(userInfo) => {
     try {
         const {
@@ -29,9 +30,12 @@ const token = genaretCode({ id: user._id.toString() }, "7d");
     }
 }
 exports.activateAccountService = async(token,id)=>{
+    // console.log(token,id);
 try {
     const user = jwt.verify(token, process.env.SECRET_TOKEN);
+    // console.log(user);
     const check = await User.findById(id);
+    // console.log(check);
     if(id !== user.id){
         throw new Error({message:"You Don't Have The Authorization to Complete The Opeeation"});
     }
@@ -42,6 +46,6 @@ try {
     await check.save();
     return check;
 } catch (error) {
-    throw error;
+    throw new Error({message:"account activation failed"});
 }
 }
