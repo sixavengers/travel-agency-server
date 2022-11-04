@@ -100,4 +100,4 @@ const sendVerificationEmail = async(req,res)=>{
 }
 
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,findUser,sendResetPasswordCode };
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail};

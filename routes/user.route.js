@@ -25,5 +25,12 @@ router.post("/finduser",passchangecontroler.findUser);
 // @desc Return current user
 // @access Private
 router.get("/current",  userController.currentUser);
+// @route GET api/users/sendResetPasswordCode
+// @desc send reset password code
+// @access Public
 router.post('/sendResetPasswordCode',passchangecontroler.sendResetPasswordCode);
+// @route GET api/users/changesPassword
+// @desc changes password using code and user email
+// @access Public
+router.post('/changesPassword',passchangecontroler.changesPassword);
 module.exports = router;

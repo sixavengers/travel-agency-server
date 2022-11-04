@@ -2,6 +2,7 @@ const genaretCodeReset = require("../helpers/genaretCodeReset");
 const { sendResetCodeEmail } = require("../helpers/sendResetCodeEmail");
 const Code = require("../Models/Code");
 const User = require("../Models/User");
+const bcrypt = require("bcryptjs");
 const { findUserServices } = require("../services/user.service");
 
 const findUser = async(req,res)=>{
@@ -41,9 +42,26 @@ const findUser = async(req,res)=>{
       res.status(500).json({ messages: error?.messages });
     }
   }
-  const changesPassword = async(req,res)=>{
-    
-  }
+//   -----------------Reset Password-----------------
+  const changesPassword = async (req, res) => {
+        try {
+            // -----------------Get user email password from request body-----------------
+          const { email, password } = req.body;
+          const cryptedPassword = await bcrypt.hash(password, 12);
+        //   -----------------Find user by email and update password-----------------
+          await User.findOneAndUpdate(
+            { email },
+            {
+              password: cryptedPassword,
+            }
+          );
+          return res.status(200).json({
+            messages: "ok",
+          });
+        } catch (error) {
+          res.status(500).json({ messages: error?.messages });
+        }
+      };
     module.exports = {
         findUser,sendResetPasswordCode,changesPassword
     }
