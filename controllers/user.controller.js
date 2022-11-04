@@ -80,7 +80,9 @@ const currentUser = async (req, res) => {
 // send verification email again
 const sendVerificationEmail = async(req,res)=>{
   try {
+    // -----------------Get user id from token-----------------
     const id = req.userData.id;
+    // -----------------Find user by id-----------------
     const user = await userServices.sendVerificationEmailServices(id);
     if (user.isverify === true) {
       return res.status(400).json({ messages: "This account is already verified" });
