@@ -69,12 +69,15 @@ const findUser = async(req,res)=>{
           const { email, password } = req.body;
           const cryptedPassword = await bcrypt.hash(password, 12);
         //   -----------------Find user by email and update password-----------------
-          await User.findOneAndUpdate(
+        const user=  await User.findOneAndUpdate(
             { email },
             {
               password: cryptedPassword,
             }
           );
+          if(!user){
+            return res.status(400).json({ messages: "User Not Found" });
+          }
           return res.status(200).json({
             messages: "ok",
           });
