@@ -95,5 +95,16 @@ const sendVerificationEmail = async(req,res)=>{
     res.status(500).json({ messages: error?.messages });
   }
 }
+const findUser = async(req,res)=>{
+  try {
+    const user = await userServices.findUserServices(req.body);
+    if(!user){
+      return res.status(400).json({ messages: "User Not Found" });
+    }
+    res.status(200).json({ messages: "User Found",user:user });
+  } catch (error) {
+    res.status(500).json({ messages: error?.messages });
+  }
+}
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail };
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,findUser };
