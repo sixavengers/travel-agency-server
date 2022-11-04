@@ -37,7 +37,7 @@ try {
     const check = await User.findById(id);
     // console.log(check);
     if(id !== user.id){
-        throw new Error("You Don't Have The Authorization to Complete The Opeeation");
+        throw new Error("You Don't Have The Authorization to Complete The Operation");
     }
     if (check.isverify == true) {
         throw new Error("Your Account Is Already Activated");
@@ -48,4 +48,8 @@ try {
 } catch (error) {
     throw new Error("account activation failed");
 }
+}
+exports.sendverificationAgainServices = async(id)=>{
+    const user = await User.findById(id);
+    return user;
 }
