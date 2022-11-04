@@ -3,6 +3,7 @@ const authUser = require("../helpers/authVerify")
 
 // // init controller
  const userController = require("../controllers/user.controller");
+ const passchangecontroler = require("../controllers/passchange.controler");
 
 // @route POST api/users/register
 // @desc Register user
@@ -19,10 +20,10 @@ router.post("/sendVerification",authUser,userController.sendVerificationEmail);
 // @route POST api/users/findser
 // @desc user info by email
 // @access Public
-router.post("/finduser",userController.findUser);
+router.post("/finduser",passchangecontroler.findUser);
 // @route GET api/users/current
 // @desc Return current user
 // @access Private
 router.get("/current",  userController.currentUser);
-router.post('/sendResetPasswordCode',userController.sendResetPasswordCode);
+router.post('/sendResetPasswordCode',passchangecontroler.sendResetPasswordCode);
 module.exports = router;
