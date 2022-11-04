@@ -18,6 +18,6 @@ exports.sendVerificationEmailServices = async(id)=>{
     return user;
 }
 exports.findUserServices = async({email})=>{
-  const user = await User.findOne({email});
+  const user = await User.findOne({email}).select("-password");
   return user;
 }

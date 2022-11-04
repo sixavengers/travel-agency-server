@@ -11,11 +11,15 @@ router.post("/register", userController.register);
 // @route POST api/users/activate
 // @desc Activate user and send token
 // @access private
-router.post("/finduser",authUser,userController.findUser);
-// @route POST api/users/finduer
-// @Find user by email
-// @access public
+router.post("/activate",authUser,userController.activateAccount);
+// @route POST api/users/sendverification
+// @send verification email again
+// @access private
 router.post("/sendVerification",authUser,userController.sendVerificationEmail);
+// @route POST api/users/findser
+// @desc user info by email
+// @access Public
+router.post("/finduser",userController.findUser);
 // @route GET api/users/current
 // @desc Return current user
 // @access Private
