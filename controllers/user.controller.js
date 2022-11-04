@@ -1,15 +1,38 @@
 const { genaretCode } = require('../helpers/accountValidationToken');
-const { sendActivateAcountMail } = require('../helpers/sendActivateAcountMail');
+const { sendWelcomeMail } = require('../helpers/WelcomeMail');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require('../Models/User');
 const userServices = require('../services/user.service');
 /* Register User */
 const register = async (req, res) => {
    try {
-    // -----------------Get user info from request body
+    // -----------------Get user info from request body-----------------
     const user = await userServices.registerUserService(req.body)
-    if(!user){
+    // -----------------Check if user already exist-----------------
+    if (user) {
+      return res.status(400).send({success:false,message:"User Already Exists"});
+    }
+    const {password} = req.body;
+    // -------------hash password----------------
+    const hashPassword = await bcrypt.hash(password, 12);
+    // -----------------Create new user------------------
+    const newUser = await User.create({
+        ...req.body,
+        password: hashPassword,
+      
+    });
+    // -----------------Generate email verification token-----------------
+    const emailVerificationToken = genaretCode({ id: user._id.toString() }, "30m");
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    // -----------------Send welcome email-----------------
+   sendWelcomeMail(user?.name,user.email,url,"Welcome To Travel Agency");
+  //  -----------------Create and assign token-----------------
+   const token = genaretCode({ id: user._id.toString() }, "7d");
+    if(!newUser){
       return res.status(400).send({success:false,message:"User Can't Be Created"});
     }
-    res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user:user.user,token:user.token });
+    res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user:newUser,token:token });
     ;
    } catch (error) {
      res.status(500).send({ success: false, message: error?.message });
@@ -20,10 +43,16 @@ const activateAccount = async(req,res)=>{
    try {
     const id = req.userData.id
     const {token} = req.body;
-    const user = await userServices.activateAccountService(token,id);
-    if(!user){
-      return res.status(400).send({success:false,message:"Something Went Wrong"});
+    const userByid = jwt.verify(token, process.env.SECRET_TOKEN);
+    const user = await userServices.activateAccountService(id);
+    if(id !== userByid.id){
+      return res.status(400).json({ messages:("You Don't Have The Authorization to Complete The Operation")});
+  }
+  if (user.isverify == true) {
+      throw new Error("Your Account Is Already Activated");
     }
+    user.isverify = true;
+   await user.save();
     res.send({ success: true, message: "Account Activated Successfully",user:user});
    } catch (error) {
     res.status(500).send({ success: false, message: error?.message });
@@ -39,11 +68,10 @@ const currentUser = async (req, res) => {
   res.send({ success: true, message: "Current User" });
 };
 // send verification email again
-const sendVerification = async(req,res)=>{
+const sendVerificationEmail = async(req,res)=>{
   try {
     const id = req.userData.id;
-    const user = await userServices.sendverificationAgainServices(id);
-    // console.log(user.email);
+    const user = await userServices.sendVerificationEmailServices(id);
     if (user.isverify === true) {
       return res.status(400).json({ messages: "This account is already verified" });
     }
@@ -52,7 +80,7 @@ const sendVerification = async(req,res)=>{
       "30m"
     );
     const url = `${process.env.BASE_URL}/activate/${emailvarificationToken}`;
-    sendActivateAcountMail(user?.name, user?.email, url);
+    sendWelcomeMail(user?.name, user?.email, url,"resend verification email");
     return res.status(200).json({
       messages: "Email Verification Link has been sent to your email",
     });
@@ -61,4 +89,4 @@ const sendVerification = async(req,res)=>{
   }
 }
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerification };
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail };

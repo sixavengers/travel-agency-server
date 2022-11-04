@@ -15,7 +15,7 @@ router.post("/activate",authUser,userController.activateAccount);
 // @route POST api/users/sendverification
 // @send verification email again
 // @access private
-router.post("/sendVerification",authUser,userController.sendVerification);
+router.post("/sendVerification",authUser,userController.sendVerificationEmail);
 // @route GET api/users/current
 // @desc Return current user
 // @access Private
