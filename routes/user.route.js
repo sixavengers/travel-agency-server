@@ -29,6 +29,10 @@ router.get("/current",  userController.currentUser);
 // @desc send reset password code
 // @access Public
 router.post('/sendResetPasswordCode',passchangecontroler.sendResetPasswordCode);
+// @route GET api/users/validateResetCode
+// @desc cheack reset password code
+// @access Public
+router.post('/validateResetCode',passchangecontroler.validateResetCode);
 // @route GET api/users/changesPassword
 // @desc changes password using code and user email
 // @access Public
