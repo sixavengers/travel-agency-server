@@ -1,9 +1,9 @@
 const {genaretCodeReset} = require("../helpers/genaretCodeReset");
-const { sendResetCodeEmail } = require("../helpers/sendResetCodeEmail");
 const Code = require("../Models/Code");
 const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 const { findUserServices } = require("../services/user.service");
+const { sendResetCodeEmail } = require("../helpers/WelcomeMail");
 
 const findUser = async(req,res)=>{
     try {

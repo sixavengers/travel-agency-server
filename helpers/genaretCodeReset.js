@@ -1,3 +1,4 @@
+// ---------------Generate password reset code-----------------
 exports.genaretCodeReset = (length) => {
     let code = "";
     let schema = "0123456789";
@@ -9,6 +10,7 @@ exports.genaretCodeReset = (length) => {
   
   const jwt = require("jsonwebtoken");
 
+  // ---------------Generate Token-----------------
 exports.genaretCode = (payload, expire) => {
   return jwt.sign(payload, process.env.SECRET_TOKEN, {
     expiresIn: expire,
