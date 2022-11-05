@@ -44,4 +44,8 @@ router.post('/changespasswitholdpass',authUser,passchangecontroler.changesPasswo
 // @desc changes password using id
 // @access private
 router.post('/updateprofile',authUser,profile.updateProfile)
+// @route POST api/users/updateprofileimage
+// @desc changes profileimg using id
+// @access private
+router.post('/updateprofileimage',authUser,profile.updateProfileImage)
 module.exports = router;
