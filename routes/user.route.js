@@ -3,6 +3,7 @@ const authUser = require("../helpers/authVerify")
 // // init controller
  const userController = require("../controllers/user.controller");
  const passchangecontroler = require("../controllers/passchange.controler");
+ const profile = require("../controllers/profile.controler");
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -42,5 +43,5 @@ router.post('/changespasswitholdpass',authUser,passchangecontroler.changesPasswo
 // @route POST api/users/updateprofile
 // @desc changes password using id
 // @access private
-router.post('/updateprofile',authUser,passchangecontroler.updateProfile)
+router.post('/updateprofile',authUser,profile.updateProfile)
 module.exports = router;

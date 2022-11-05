@@ -37,11 +37,13 @@ const UserSchema = new mongoose.Schema({
     },
     address:{
     type:String,
-    trim:0
+    trim:0,
+    default:''
     },
     phone:{
    type:String,
-    trim:0
+    trim:0,
+    default:''
     },
     avatar:{
         type:String,
