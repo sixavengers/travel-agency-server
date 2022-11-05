@@ -103,6 +103,7 @@ const users = async (req, res) => {
 try {
   const id = req.userData.id;
   const user = await User.findById(id);
+  // -----------------Check if requester is admin-----------------
   if (user.role !== "admin") {
     return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
   }
@@ -112,5 +113,20 @@ try {
   res.status(500).json({ messages: error?.messages });
 }
 }
+// -----------------get user by id-----------------
+const userbyid = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const user = await User.findById(id);
+    if(!user){
+      return res.status(400).json({ messages: "User Not Found" });
+    }
+    res.send({ success: true, message: "User By Id",user:user });
+  } catch (error) {
+    res.status(500).json({ messages: error?.messages });
+    
+  }
+}
+
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail};
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,users,userbyid};
