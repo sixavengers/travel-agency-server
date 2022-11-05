@@ -87,7 +87,19 @@ const findUser = async(req,res)=>{
 };
 const changesPasswordWithOldPassword = async (req, res) => {
             try {
-              
+              const id = req.userData.id
+              const user = await User.findById(id);
+              const { oldPassword, newPassword } = req.body;
+              // ---------Cheack if  password is the same as old password
+              const isMatch = await bcrypt.compare(oldPassword, user.password);
+              if (!isMatch) {
+                return res.status(400).json({ messages: "Old Password Not Match" });
+              }
+              // -----------------Hash new password-----------------
+              const cryptedPassword = await bcrypt.hash(newPassword, 12);
+              // -----------------Update new password-----------------
+              user.password = cryptedPassword;
+              await user.save();
             } catch (error) {
               res.status(500).json({ messages: error?.messages });
             }
