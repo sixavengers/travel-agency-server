@@ -75,6 +75,7 @@ const findUser = async(req,res)=>{
               password: cryptedPassword,
             }
           );
+          // ------------------if not found user return error-----------------
           if(!user){
             return res.status(400).json({ messages: "User Not Found" });
           }

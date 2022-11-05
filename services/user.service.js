@@ -9,7 +9,7 @@ exports.registerUserService = async(userInfo) => {
 // ---------------Activate Account Service-----------------
 exports.activateAccountService = async(id)=>{
 
-    const user= await User.findById(id);
+    const user= await User.findById(id).select("-password");
     return user;
 }
 // -----------------send verification email-----------------
