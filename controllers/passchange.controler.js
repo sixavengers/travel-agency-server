@@ -86,6 +86,7 @@ const findUser = async(req,res)=>{
           res.status(500).json({ messages: error?.messages });
         }
 };
+// -----------------Changes Password With Old Password-----------------
 const changesPasswordWithOldPassword = async (req, res) => {
             try {
               const id = req.userData.id
@@ -108,6 +109,16 @@ const changesPasswordWithOldPassword = async (req, res) => {
               res.status(500).json({ messages: error?.messages });
             }
 }
+const updateProfile = async (req, res) => {
+  try {
+    const id = req.userData.id
+   const user = await User.findById(id).select("-password -_id -tourInfo -isverify -profileImg -avatar -role");
+   
+  } catch (error) {
+    res.status(500).json({ messages: error?.messages });
+  }
+}
     module.exports = {
-        findUser,sendResetPasswordCode,changesPassword,validateResetCode,changesPasswordWithOldPassword
+        findUser,sendResetPasswordCode,changesPassword,validateResetCode,changesPasswordWithOldPassword,
+        updateProfile
     }
