@@ -52,5 +52,8 @@ router.post('/updateprofileimage',authUser,profile.updateProfileImage)
 // @desc get all users
 // @access private only admin
 router.post('/users' , authUser,userController.users)
+// @route POST api/users/user/id
+// @desc get a user
+// @access private only admin
 router.get('/user/:id' , authUser,userController.userbyid)
 module.exports = router;
