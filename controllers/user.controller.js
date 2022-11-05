@@ -116,8 +116,13 @@ try {
 // -----------------get user by id-----------------
 const userbyid = async (req, res) => {
   try {
+    const requesterid = req.userData.id;
+    const admin = await User.findById(requesterid);
+    if(admin.role !== "admin"){
+      return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
+    }
     const {id} = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).select("-password");
     if(!user){
       return res.status(400).json({ messages: "User Not Found" });
     }
