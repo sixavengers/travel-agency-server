@@ -6,7 +6,7 @@ const databaseConnection = (app) => {
     { useNewUrlParser: true, useUnifiedTopology: true }
   );
   mongoose.connection.on("connected", () => {
-    console.log("Mongoose is connected").red.bold;
+    console.log(`Mongoose is connected`.red.bold);
   });
 };
 
