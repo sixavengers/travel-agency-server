@@ -84,7 +84,14 @@ const findUser = async(req,res)=>{
         } catch (error) {
           res.status(500).json({ messages: error?.messages });
         }
-      };
+};
+const changesPasswordWithOldPassword = async (req, res) => {
+            try {
+              
+            } catch (error) {
+              res.status(500).json({ messages: error?.messages });
+            }
+}
     module.exports = {
-        findUser,sendResetPasswordCode,changesPassword,validateResetCode
+        findUser,sendResetPasswordCode,changesPassword,validateResetCode,changesPasswordWithOldPassword
     }
