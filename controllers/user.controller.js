@@ -101,6 +101,11 @@ const sendVerificationEmail = async(req,res)=>{
 // -----------------get all users-----------------
 const users = async (req, res) => {
 try {
+  const id = req.userData.id;
+  const user = await User.findById(id);
+  if (user.role !== "admin") {
+    return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
+  }
   const users = await User.find({});
   res.send({ success: true, message: "All Users",users:users });
 } catch (error) {

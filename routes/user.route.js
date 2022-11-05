@@ -51,5 +51,5 @@ router.post('/updateprofileimage',authUser,profile.updateProfileImage)
 // @route POST api/users/users
 // @desc get all users
 // @access private only admin
-router.post('/users' , adminauth,userController.users)
+router.post('/users' , authUser,userController.users)
 module.exports = router;
