@@ -1,4 +1,4 @@
-const genaretCodeReset = require("../helpers/genaretCodeReset");
+const {genaretCodeReset} = require("../helpers/genaretCodeReset");
 const { sendResetCodeEmail } = require("../helpers/sendResetCodeEmail");
 const Code = require("../Models/Code");
 const User = require("../Models/User");
@@ -79,7 +79,7 @@ const findUser = async(req,res)=>{
             return res.status(400).json({ messages: "User Not Found" });
           }
           return res.status(200).json({
-            messages: "ok",
+            messages: "password changed successfully",
           });
         } catch (error) {
           res.status(500).json({ messages: error?.messages });

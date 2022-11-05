@@ -1,9 +1,9 @@
-const { genaretCode } = require('../helpers/accountValidationToken');
 const { sendWelcomeMail } = require('../helpers/WelcomeMail');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../Models/User');
 const userServices = require('../services/user.service');
+const { genaretCode } = require('../helpers/genaretCodeReset');
 /* Register User */
 const register = async (req, res) => {
    try {

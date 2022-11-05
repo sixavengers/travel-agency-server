@@ -1,4 +1,4 @@
-const genaretCodeReset = (length) => {
+exports.genaretCodeReset = (length) => {
     let code = "";
     let schema = "0123456789";
     for (let i = 0; i < length; i++) {
@@ -7,4 +7,10 @@ const genaretCodeReset = (length) => {
     return code;
   };
   
-  module.exports = genaretCodeReset;
+  const jwt = require("jsonwebtoken");
+
+exports.genaretCode = (payload, expire) => {
+  return jwt.sign(payload, process.env.SECRET_TOKEN, {
+    expiresIn: expire,
+  });
+};
