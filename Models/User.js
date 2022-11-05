@@ -55,9 +55,9 @@ const UserSchema = new mongoose.Schema({
     profileImg:{
         type:String,
         trim:true,
-        validate:{
-            validator:(value)=>validator.isURL(value),
-        },
+        // validate:{
+        //     validator:(value)=>validator.isURL(value),
+        // },
         default:''
     },
     isverify:{

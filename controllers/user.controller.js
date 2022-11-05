@@ -98,6 +98,14 @@ const sendVerificationEmail = async(req,res)=>{
     res.status(500).json({ messages: error?.messages });
   }
 }
-
+// -----------------get all users-----------------
+const users = async (req, res) => {
+try {
+  const users = await User.find({});
+  res.send({ success: true, message: "All Users",users:users });
+} catch (error) {
+  res.status(500).json({ messages: error?.messages });
+}
+}
 // exports
 module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail};
