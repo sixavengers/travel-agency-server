@@ -39,4 +39,8 @@ router.post('/changesPassword',passchangecontroler.changesPassword);
 // @desc changes password using email and old password
 // @access private
 router.post('/changespasswitholdpass',authUser,passchangecontroler.changesPasswordWithOldPassword)
+// @route POST api/users/updateprofile
+// @desc changes password using id
+// @access private
+router.post('/updateprofile',authUser,passchangecontroler.updateProfile)
 module.exports = router;
