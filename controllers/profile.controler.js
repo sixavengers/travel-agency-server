@@ -121,6 +121,9 @@ const users = async (req, res) => {
       const {id} = req.params;
       // -----------------Find user by id-----------------
       const user = await User.findById(id);
+      if(user.role === "admin"){
+        res.status(400).json({ messages: "You Can't Delete Admin" });
+      }
       // -----------------Check if user found-----------------
       if(!user){
         return res.status(400).json({ messages: "User Not Found" });
