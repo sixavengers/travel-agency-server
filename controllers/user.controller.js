@@ -70,6 +70,9 @@ const login = async (req, res) => {
   try {
     
     const { email, password } = req.body;
+    if(!email || !password){
+      return res.status(400).json({ messages: "Please Provide Email And Password" });
+    }
     // -----------------Check if user exist-----------------
     const user = await userServices.loginUserService(email);
     if (!user) {
