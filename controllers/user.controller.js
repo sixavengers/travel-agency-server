@@ -118,10 +118,12 @@ const userbyid = async (req, res) => {
   try {
     const requesterid = req.userData.id;
     const admin = await User.findById(requesterid);
+    // -----------------Check if requester is admin-----------------
     if(admin.role !== "admin"){
       return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
     }
     const {id} = req.params;
+    // -----------------Find user by id-----------------
     const user = await User.findById(id).select("-password");
     if(!user){
       return res.status(400).json({ messages: "User Not Found" });
@@ -133,7 +135,16 @@ const userbyid = async (req, res) => {
   }
 }
 const changeRole = async(req,res)=>{
-
+try {
+  const requesterid = req.userData.id;
+  const admin = await User.findById(requesterid);
+   // -----------------Check if requester is admin-----------------
+  if(admin.role !== "admin"){
+    return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
+  }
+} catch (error) {
+  res.status(500).json({ messages: error?.messages });
+}
 }
 // exports
 module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,users,userbyid,changeRole};
