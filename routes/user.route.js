@@ -51,13 +51,17 @@ router.post('/updateprofileimage',authUser,profile.updateProfileImage)
 // @route POST api/users/users
 // @desc get all users
 // @access private only admin
-router.post('/users' , authUser,userController.users)
+router.post('/users' , authUser,profile.users)
 // @route POST api/users/user/id
 // @desc get a user
 // @access private only admin
-router.get('/user/:id' , authUser,userController.userbyid)
+router.get('/user/:id' , authUser,profile.userbyid)
 // @route POST api/users/change-role
 // @desc change user role
 // @access private only admin
-router.post('/change-role/:id' , authUser,userController.changeRole)
+router.post('/change-role/:id' , authUser,profile.changeRole)
+// @route POST api/users/delete-user
+// @desc delete user by id
+// @access private only admin
+router.post('/delete-user/:id' , authUser,profile.deleteUser)
 module.exports = router;
