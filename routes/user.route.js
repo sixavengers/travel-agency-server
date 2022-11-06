@@ -59,5 +59,5 @@ router.get('/user/:id' , authUser,userController.userbyid)
 // @route POST api/users/change-role
 // @desc change user role
 // @access private only admin
-router.post('/change-role' , authUser,userController.changeRole)
+router.post('/change-role/:id' , authUser,userController.changeRole)
 module.exports = router;

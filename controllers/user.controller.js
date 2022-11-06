@@ -145,6 +145,9 @@ try {
   const {id} = req.params;
   // -----------------get role from body-----------------
   const {role} = req.body;
+  if(role !== "admin" && role !== "user" && role !== "manager" && role !== "tour-guide"){
+    return res.status(400).json({ messages: "Provide a valid role" });
+  }
   // -----------------Find user by id-----------------
   const user = await User.findById(id);
   // -----------------Check if user found-----------------
