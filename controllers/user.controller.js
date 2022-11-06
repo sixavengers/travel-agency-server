@@ -82,7 +82,7 @@ const login = async (req, res) => {
     }
     // -----------------Create and assign token-----------------
     const token = genaretCode({ id: user._id.toString() }, "7d");
-    res.send({ success: true, message: "Login Successfully", user: user, token: token });
+    res.send({ success: true, message: "Login Successfully", user:user, token: token });
   } catch (error) {
     res.status(500).send({ success: false, message: error?.message });
   }
