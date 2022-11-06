@@ -132,6 +132,8 @@ const userbyid = async (req, res) => {
     
   }
 }
+const changeRole = async(req,res)=>{
 
+}
 // exports
-module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,users,userbyid};
+module.exports = { register, currentUser, login,activateAccount,sendVerificationEmail,users,userbyid,changeRole};
