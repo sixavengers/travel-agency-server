@@ -69,6 +69,20 @@ const activateAccount = async(req,res)=>{
 const login = async (req, res) => {
   try {
     
+    const { email, password } = req.body;
+    // -----------------Check if user exist-----------------
+    const user = await userServices.loginUserService(email);
+    if (!user) {
+      return res.status(400).send({ success: false, message: "User Not Found" });
+    }
+    // -----------------Check if password is correct-----------------
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send({ success: false, message: "Incorrect Password" });
+    }
+    // -----------------Create and assign token-----------------
+    const token = genaretCode({ id: user._id.toString() }, "7d");
+    res.send({ success: true, message: "Login Successfully", user: user, token: token });
   } catch (error) {
     res.status(500).send({ success: false, message: error?.message });
   }
