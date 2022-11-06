@@ -67,7 +67,11 @@ const activateAccount = async(req,res)=>{
 }
 /* Login User */
 const login = async (req, res) => {
-  res.send({ success: true, message: "Login User" });
+  try {
+    
+  } catch (error) {
+    res.status(500).send({ success: false, message: error?.message });
+  }
 };
 
 /* Current User */

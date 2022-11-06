@@ -122,7 +122,7 @@ const users = async (req, res) => {
       // -----------------Find user by id-----------------
       const user = await User.findById(id);
       if(user.role === "admin"){
-        res.status(400).json({ messages: "You Can't Delete Admin" });
+        res.status(400).json({ messages: "You Cant delete a admin" });
       }
       // -----------------Check if user found-----------------
       if(!user){
