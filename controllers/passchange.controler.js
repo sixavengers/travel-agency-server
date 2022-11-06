@@ -56,7 +56,8 @@ const findUser = async(req,res)=>{
         });
       }
       return res.status(200).json({
-        messages: "Code Valid",
+        status: true,
+        messages: "Code Valid"
       });
     } catch (error) {
       res.status(500).json({ messages: error?.messages });
