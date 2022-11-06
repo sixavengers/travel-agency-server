@@ -142,6 +142,18 @@ try {
   if(admin.role !== "admin"){
     return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
   }
+  const {id} = req.params;
+  // -----------------get role from body-----------------
+  const {role} = req.body;
+  // -----------------Find user by id-----------------
+  const user = await User.findById(id);
+  // -----------------Check if user found-----------------
+  if(!user){
+    return res.status(400).json({ messages: "User Not Found" });
+  }
+  // -----------------changes user role-----------------
+  user.role=role;
+  await user.save(); 
 } catch (error) {
   res.status(500).json({ messages: error?.messages });
 }
