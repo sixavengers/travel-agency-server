@@ -153,7 +153,8 @@ try {
   }
   // -----------------changes user role-----------------
   user.role=role;
-  await user.save(); 
+  await user.save();
+  res.send({ success: true, message: "User Role Changed Successfully",user:user });
 } catch (error) {
   res.status(500).json({ messages: error?.messages });
 }
