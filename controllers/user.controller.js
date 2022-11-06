@@ -145,11 +145,16 @@ try {
   const {id} = req.params;
   // -----------------get role from body-----------------
   const {role} = req.body;
+  // -----------------Cheack if role is valid-----------------
   if(role !== "admin" && role !== "user" && role !== "manager" && role !== "tour-guide"){
     return res.status(400).json({ messages: "Provide a valid role" });
   }
   // -----------------Find user by id-----------------
   const user = await User.findById(id);
+  // -----------------Cheack this user already have this role-----------------
+  if(user.role === role){
+    return res.status(400).json({ messages: "This user already has this role" });
+  }
   // -----------------Check if user found-----------------
   if(!user){
     return res.status(400).json({ messages: "User Not Found" });
