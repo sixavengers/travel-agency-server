@@ -4,6 +4,7 @@ const authUser = require("../helpers/authVerify")
  const userController = require("../controllers/user.controller");
  const passchangecontroler = require("../controllers/passchange.controler");
  const profile = require("../controllers/profile.controler");
+const { imgUpload } = require("../controllers/imgUpload");
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -51,7 +52,7 @@ router.post('/updateprofile',authUser,profile.updateProfile)
 // @route POST api/users/updateprofileimage
 // @desc changes profileimg using id
 // @access private
-router.post('/updateprofileimage',authUser,profile.updateProfileImage)
+router.post('/updateprofileimage',authUser,imgUpload.single('profile'),profile.updateProfileImage)
 // @route POST api/users/users
 // @desc get all users
 // @access private only admin
@@ -63,7 +64,7 @@ router.get('/user/:id' , authUser,profile.userbyid)
 // @route POST api/users/change-role
 // @desc change user role
 // @access private only admin
-router.post('/change-role/:id' , authUser,profile.changeRole)
+router.post('/change-role/:id' ,authUser,profile.changeRole)
 // @route POST api/users/delete-user
 // @desc delete user by id
 // @access private only admin
