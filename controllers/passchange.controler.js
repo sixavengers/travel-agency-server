@@ -7,7 +7,7 @@ const { sendResetCodeEmail } = require("../helpers/WelcomeMail");
 
 const findUser = async(req,res)=>{
     try {
-      const user = await findUserServices.findUserServices(req.body);
+      const user = await findUserServices(req.body);
       if(!user){
         return res.status(400).json({ messages: "User Not Found" });
       }

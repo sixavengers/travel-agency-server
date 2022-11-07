@@ -49,7 +49,20 @@ const users = async (req, res) => {
     if (user.role !== "admin") {
       return res.status(400).json({ messages: "You Don't Have The Authorization to Complete The Operation" });
     }
-    const users = await User.find({});
+    // -----------------Get users by filter(name and  role) with pagination-----------------
+    const filter = {...req.query};
+    const exclude = ["page","limit"];
+    // -----------------exclude page and limit from filter-----------------
+    exclude.forEach((el)=>delete filter[el]);
+    const queries= {}
+    // -----------------Pagination-----------------
+    if(req.query.page){
+      const {page=1,limit=5} = req.query;
+      const skip = (page-1)*parseInt(limit);
+      queries.skip = skip;
+      queries.limit = parseInt(limit);
+    }
+    const users = await User.find(filter).skip(queries.skip).limit(queries.limit).select("-password");
     res.send({ success: true, message: "All Users",users:users });
   } catch (error) {
     res.status(500).json({ messages: error?.messages });
