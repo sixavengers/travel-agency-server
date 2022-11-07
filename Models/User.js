@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema({
     default:''
     },
     phone:{
-   type:String,
+    type:String,
     trim:0,
     default:''
     },
@@ -51,14 +51,6 @@ const UserSchema = new mongoose.Schema({
         validate:{
             validator:(value)=>validator.isURL(value),
         }
-    },
-    profileImg:{
-        type:String,
-        trim:true,
-        // validate:{
-        //     validator:(value)=>validator.isURL(value),
-        // },
-        default:''
     },
     isverify:{
         type:Boolean,

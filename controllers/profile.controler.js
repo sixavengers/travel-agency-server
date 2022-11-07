@@ -26,12 +26,12 @@ const updateProfile = async (req, res) => {
     try {
       const id = req.userData.id
       const {url} = req.body;
-      if(!avatar){
+      if(!url){
         return res.status(400).json({ messages: "All Fields Are Required" });
       }
       const updatedUser = await User.findByIdAndUpdate(id,{
-        profileImg:url
-      }).select("-password -_id -tourInfo -isverify -avatar -role -email");
+        avatar:url
+      }).select("-password -_id -tourInfo -isverify -role -email");
       return res.status(200).json({
         messages: "Profile Image Updated Successfully",
         updatedUser
@@ -58,12 +58,16 @@ const users = async (req, res) => {
     // -----------------Pagination-----------------
     if(req.query.page){
       const {page=1,limit=5} = req.query;
+      // -----------------skip-----------------
       const skip = (page-1)*parseInt(limit);
       queries.skip = skip;
+      // -----------------limit-----------------
       queries.limit = parseInt(limit);
     }
     const users = await User.find(filter).skip(queries.skip).limit(queries.limit).select("-password");
+    // -----------------if not ger any user-----------------
     if(users.length===0){return res.status(400).json({ messages: "not get any user info" })};
+    // -----------------Get total users-----------------
     res.send({ success: true, message: "All Users",users:users });
   } catch (error) {
     res.status(500).json({ messages: error?.messages });
