@@ -30,12 +30,12 @@ const updateProfile = async (req, res) => {
       if(!url){
         return res.status(400).json({ messages: "All Fields Are Required" });
       }
-      const updatedUser = await User.findByIdAndUpdate(id,{
-        avatar:url
-      }).select("-password -_id -tourInfo -isverify -role -email");
+      const getuser = await User.findById(id);
+      getuser.avatar = url;
+      await getuser.save();
       return res.status(200).json({
         messages: "Profile Image Updated Successfully",
-        updatedUser
+        getuser
       })
     } catch (error) {
       res.status(500).json({ messages: error?.messages });
