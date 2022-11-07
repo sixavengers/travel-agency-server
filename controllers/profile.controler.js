@@ -63,7 +63,7 @@ const users = async (req, res) => {
       queries.limit = parseInt(limit);
     }
     const users = await User.find(filter).skip(queries.skip).limit(queries.limit).select("-password");
-    (users.length === 0) && res.status(400).json({ messages: "not get any user info" });
+    if(users.length===0){return res.status(400).json({ messages: "not get any user info" })};
     res.send({ success: true, message: "All Users",users:users });
   } catch (error) {
     res.status(500).json({ messages: error?.messages });
