@@ -57,6 +57,10 @@ const UserSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    cloudinary_id:{
+        type:String,
+        default:''
+    },
     tourInfo: [
         {
             type: mongoose.Schema.ObjectId,

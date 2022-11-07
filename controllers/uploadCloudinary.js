@@ -7,13 +7,17 @@ exports.uploadCloudinary = async (req, res,next) => {
         const id = req.userData.id
         const file = req.file.path
         const user = await User.findById(id);
-            // -------file name what file you want to upload
+        await removeOldImage(id);
+        // -------file name what file you want to upload
           const url = await cloudinary.v2.uploader.upload(file, {
             folder: `${user.email}/profile`,
             use_filename: true,
           })
+          // --------add url to req
+          user.cloudinary_id = url.public_id;
+         await user.save()
          req.url = url
-          removeTmp(file)
+         removeTmp(file)
          // -------send the result to the client
         next();
     } catch (error) {
@@ -26,3 +30,11 @@ const removeTmp = (path) => {
       if (err) throw err;
     });
   };
+  // -----------------remove old image from cloudinary-----------------
+  const removeOldImage = async (id) => {
+      const user = await User.findById(id);
+      if (user?.cloudinary_id) {
+        await cloudinary.v2.uploader.destroy(user?.cloudinary_id);
+      }
+      return    
+  }
