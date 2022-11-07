@@ -14,7 +14,7 @@ exports.uploadCloudinary = async (req, res,next) => {
             use_filename: true,
           })
           // --------add url to req
-          user.cloudinary_id = url.public_id;
+         user.cloudinary_id = url.public_id;
          await user.save()
          req.url = url
          removeTmp(file)

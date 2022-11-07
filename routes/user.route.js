@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const authUser = require("../helpers/authVerify")
+const authUser = require("../middeware/authVerify")
 // // init controller
  const userController = require("../controllers/user.controller");
  const passchangecontroler = require("../controllers/passchange.controler");
  const profile = require("../controllers/profile.controler");
-const { imgUpload } = require("../controllers/imgUpload");
-const { uploadCloudinary } = require("../controllers/uploadCloudinary");
+const { imgUpload } = require("../middeware/imgUpload");
+const { uploadCloudinary } = require("../middeware/uploadCloudinary");
 // @route POST api/users/register
 // @desc Register user
 // @access Public
