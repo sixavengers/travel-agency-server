@@ -5,6 +5,7 @@ const authUser = require("../helpers/authVerify")
  const passchangecontroler = require("../controllers/passchange.controler");
  const profile = require("../controllers/profile.controler");
 const { imgUpload } = require("../controllers/imgUpload");
+const { uploadCloudinary } = require("../controllers/uploadCloudinary");
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -52,7 +53,7 @@ router.post('/updateprofile',authUser,profile.updateProfile)
 // @route POST api/users/updateprofileimage
 // @desc changes profileimg using id
 // @access private
-router.post('/updateprofileimage',authUser,imgUpload.single('profile'),profile.updateProfileImage)
+router.post('/updateprofileimage',authUser,imgUpload.single('profile'),uploadCloudinary,profile.updateProfileImage)
 // @route POST api/users/users
 // @desc get all users
 // @access private only admin

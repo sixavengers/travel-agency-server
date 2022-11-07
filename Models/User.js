@@ -6,12 +6,13 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please add a name'],
         trim: true,
         maxlength: [40, 'Name can not be more than 40 characters'],
-        minlength: [3, 'Name can not be less than 3 characters']
+        minlength: [3, 'Name can not be less than 3 characters'],
+        unique: [true, 'Name already exists'],
     },
     email: {
         type: String,
         required: [true, 'Please add an email'],
-        unique: true,
+        unique: [true, 'Email already exists'],
         trim: true,
         lowercase: true,
         validate: [validator.isEmail, 'Please add a valid email']

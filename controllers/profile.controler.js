@@ -24,8 +24,9 @@ const updateProfile = async (req, res) => {
   }
   const updateProfileImage = async (req, res) => {
     try {
+      // console.log(req);
       const id = req.userData.id
-      const {url} = req.body;
+      const {url} = req.url;
       if(!url){
         return res.status(400).json({ messages: "All Fields Are Required" });
       }
