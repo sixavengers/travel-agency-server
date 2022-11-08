@@ -66,7 +66,7 @@ const findUser = async(req,res)=>{
 //   -----------------Reset Password-----------------
   const changesPassword = async (req, res) => {
         try {
-            // -----------------Get user email password from request body-----------------
+        // -----------------Get user email password from request body-----------------
           const { email, password } = req.body;
           const cryptedPassword = await bcrypt.hash(password, 12);
         //   -----------------Find user by email and update password-----------------
@@ -88,7 +88,7 @@ const findUser = async(req,res)=>{
         }
 };
 // -----------------Changes Password With Old Password-----------------
-const changesPasswordWithOldPassword = async (req, res) => {
+const changesPasswordWithOldPassword = async (req,res) => {
             try {
               const id = req.userData.id
               const user = await User.findById(id);

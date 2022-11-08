@@ -24,13 +24,15 @@ const updateProfile = async (req, res) => {
   }
   const updateProfileImage = async (req, res) => {
     try {
-      // console.log(req);
       const id = req.userData.id
       const {url} = req.url;
       if(!url){
         return res.status(400).json({ messages: "All Fields Are Required" });
       }
-      const getuser = await User.findById(id);
+      const getuser = await User.findById(id).select("-password");
+      if(!getuser){
+        return res.status(400).json({ messages: "User Not Found" });
+      }
       getuser.avatar = url;
       await getuser.save();
       return res.status(200).json({
