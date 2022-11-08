@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 // const validator = require('validator');
-const TourSchema = new mongoose.Schema({
+const PackagesSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
         trim: true,
+    },
+    origin:{
+        type: String,
+        required: [true, 'Please add a origin'],
+    },
+    destination:{
+        type: String,
+        required: [true, 'Please add a destination'],
     },
     description: {
         type: String,
@@ -28,17 +36,11 @@ const TourSchema = new mongoose.Schema({
         ref: "User",
         default: null
     },
-    extraInfo: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: "ExtraInfo"
-        }
-    ],
     isAvailable: {
         type: Boolean,
         default: true
     }
 },{timestamps:true});
 
-const Tour = mongoose.model('Tour', TourSchema);
-module.exports = Tour;
+const Packages = mongoose.model('Packages', PackagesSchema);
+module.exports = Packages;

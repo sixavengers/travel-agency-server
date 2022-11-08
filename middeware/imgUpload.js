@@ -18,7 +18,6 @@ module.exports.imgUpload = multer({
         fileSize:3000000
     },
     fileFilter(req,file,cb){
-        // console.log(file);
         const fileTypes = /jpeg|jpg|png/;
         const extension = path.extname(file.originalname).toLowerCase();
         if(fileTypes.test(extension)){
