@@ -10,7 +10,7 @@ exports.uploadCloudinary = async (req, res,next) => {
         await removeOldImage(id);
         // -------file name what file you want to upload
           const url = await cloudinary.v2.uploader.upload(file, {
-            folder: `${user.email}/profile`,
+            folder: `travel/${user.email}/profile`,
             use_filename: true,
           })
           // --------add url to req
