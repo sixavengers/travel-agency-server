@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const PackagesSchema = new mongoose.Schema({
+const validator = require('validator'); 
+const PackagesSchema =new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
@@ -29,33 +29,34 @@ const PackagesSchema = new mongoose.Schema({
         enum: ['Luxury', 'Mid Range', 'Budget'],
     },
     packageTypes:{
-        package:{type:String,enum:['Family', 'Couple', 'Group', 'Solo']},
-        required: [true, 'Please add packageTypes']
-    },
+            type:Array,
+            required: [true, 'Please add a packageTypes'],  
+        }
+    ,
     mealPlan: {
-        meal: {type:String,enum:['Breakfast', 'Lunch', 'Dinner', 'Breakfast & Dinner', 'Breakfast & Lunch', 'Lunch & Dinner','none']},
+        type: Array,
         required: [true, 'Please add mealPlan'],
     },
     activities: {
-        activities: {type:String,enum:['Adventure', 'Cultural', 'Religious', 'Wildlife', 'Beach', 'Hill Station', 'Water Sports','Road Trip','Shopping','family','others']},
+        type:Array,
         required: [true, 'Please add activities']   
     },
     jurneyDate:{
-        type: Date,
+        type: String,
         required: [true, 'Please add a jurneyDate'],
+        default: new Date().toJSON().slice(0,10).replace(/-/g,'/')
     },
     returnDate:{
-        type: Date,
+        type: String,
         required: [true, 'Please add a returnDate'],
     },
     maxGroupSize: {
         type: Number,
         required: [true, 'Please add a maxGroupSize']
     },
-    tour_guide: {
+    createBy: {
         type: mongoose.Schema.ObjectId,
-        ref: "User",
-        default: null
+        ref: "User"
     },
     isAvailable: {
         type: Boolean,
@@ -67,14 +68,5 @@ const PackagesSchema = new mongoose.Schema({
         max: [5, 'Rating must be below 5.0'],
     }
 },{timestamps:true});
-// create methods
-PackagesSchema.pre('save', async function(next) {
-    if(this.jurneyDate < this.returnDate && this.jurneyDate > Date.now()){
-      next();
-    }
-    else{
-        throw new Error('Provide valid date');
-    }
-})
-const Packages = mongoose.model('Packages', PackagesSchema);
-module.exports = Packages;
+module.exports = mongoose.model('packages', PackagesSchema);
+
