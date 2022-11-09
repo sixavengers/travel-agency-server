@@ -30,20 +30,23 @@ const PackagesSchema = new mongoose.Schema({
     },
     packageTypes:{
         package:{type:String,enum:['Family', 'Couple', 'Group', 'Solo']},
-        required: [true, 'Please add a packageTypes']
+        required: [true, 'Please add packageTypes']
     },
     mealPlan: {
         meal: {type:String,enum:['Breakfast', 'Lunch', 'Dinner', 'Breakfast & Dinner', 'Breakfast & Lunch', 'Lunch & Dinner','none']},
-        required: [true, 'Please add a mealPlan'],
+        required: [true, 'Please add mealPlan'],
     },
     activities: {
         activities: {type:String,enum:['Adventure', 'Cultural', 'Religious', 'Wildlife', 'Beach', 'Hill Station', 'Water Sports','Road Trip','Shopping','family','others']},
-        required: [true, 'Please add a activities']   
+        required: [true, 'Please add activities']   
     },
-    duration: {
+    jurneyDate:{
         type: Date,
-        required: [true, 'Please add a Date must be in DD-MM-YR format'],
-        validator: [validator.isDate, 'Please add a valid date']    
+        required: [true, 'Please add a jurneyDate'],
+    },
+    returnDate:{
+        type: Date,
+        required: [true, 'Please add a returnDate'],
     },
     maxGroupSize: {
         type: Number,
@@ -64,6 +67,14 @@ const PackagesSchema = new mongoose.Schema({
         max: [5, 'Rating must be below 5.0'],
     }
 },{timestamps:true});
-
+// create methods
+PackagesSchema.pre('save', async function(next) {
+    if(this.jurneyDate < this.returnDate && this.jurneyDate > Date.now()){
+      next();
+    }
+    else{
+        throw new Error('Provide valid date');
+    }
+})
 const Packages = mongoose.model('Packages', PackagesSchema);
 module.exports = Packages;
