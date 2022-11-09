@@ -9,6 +9,9 @@ require('dotenv').config()
 const dbConnection = require("./config/database");
 /* import router */
 const userRouter = require("./routes/user.route");
+/* ------Package Route------- */
+const packageRouter = require("./routes/package.route");
+/* ------import error hadeler------- */
 const ErrorHandeler = require("./helpers/error.handeler");
 // apply middle wares
 app.use(bodyParser.json());
@@ -30,6 +33,9 @@ app.listen(port,()=>{
 
 /*  users route */
 app.use("/api/users", userRouter);
+/* -------package route------ */
+app.use("/api/package", packageRouter);
+/* -------package route------ */
 app.all("*", (req, res) => {
     res.send("404 not found")
     })
