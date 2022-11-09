@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
+const validator = require('validator');
 const PackagesSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,24 +29,21 @@ const PackagesSchema = new mongoose.Schema({
         enum: ['Luxury', 'Mid Range', 'Budget'],
     },
     packageTypes:{
-        type: String,
-        required: [true, 'Please add a packageTypes'],
-        enum: ['Family', 'Couple', 'Group', 'Solo'],
-
+        package:{type:String,enum:['Family', 'Couple', 'Group', 'Solo']},
+        required: [true, 'Please add a packageTypes']
     },
     mealPlan: {
-        type: String,
+        meal: {type:String,enum:['Breakfast', 'Lunch', 'Dinner', 'Breakfast & Dinner', 'Breakfast & Lunch', 'Lunch & Dinner','none']},
         required: [true, 'Please add a mealPlan'],
-        enum: ['Breakfast', 'Lunch', 'Dinner', 'Breakfast & Dinner', 'Breakfast & Lunch', 'Lunch & Dinner']
     },
     activities: {
-        type: String,
-        required: [true, 'Please add a activities'],
-        enum: ['Adventure', 'Cultural', 'Religious', 'Wildlife', 'Beach', 'Hill Station', 'Water Sports','Road Trip','Shopping','family','others']   
+        activities: {type:String,enum:['Adventure', 'Cultural', 'Religious', 'Wildlife', 'Beach', 'Hill Station', 'Water Sports','Road Trip','Shopping','family','others']},
+        required: [true, 'Please add a activities']   
     },
     duration: {
-        type: Number,
-        required: [true, 'Please add a duration']
+        type: Date,
+        required: [true, 'Please add a Date must be in DD-MM-YR format'],
+        validator: [validator.isDate, 'Please add a valid date']    
     },
     maxGroupSize: {
         type: Number,
