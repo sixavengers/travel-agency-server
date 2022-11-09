@@ -1,11 +1,9 @@
 const User = require('../Models/User');
 const Packages = require('../Models/PackagesModel');
-const packageService = require('../services/package.service');
 const createPackage = async (req, res) => {
     try {
         const id = req.userData.id;
         const findUser = await User.findById(id);
-        // console.log(findUser);
         if (findUser.role !== 'admin' && findUser.role !== 'manager') {
             return res.status(401).json({
                 status: false,
@@ -25,7 +23,7 @@ const createPackage = async (req, res) => {
                 messages: "Jurney Date Must Be Less Than Return Date and Jurney Date Must Be Less Than Today"
             })
         }
-        // some code here
+        // make array of packageTypes and mealPlan and activities
         const packagetypes = []
         const meal = []
         const act = []

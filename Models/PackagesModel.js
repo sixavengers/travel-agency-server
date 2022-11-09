@@ -68,5 +68,25 @@ const PackagesSchema =new mongoose.Schema({
         max: [5, 'Rating must be below 5.0'],
     }
 },{timestamps:true});
+// PackagesSchema.pre('validate',async function(next){
+//     // console.log("sechema");
+//     const packagetypes = []
+//     const meal = []
+//     const act = []
+//   await this.packageTypes.split(' ').forEach(element => {
+//         packagetypes.push(element)
+//     });
+//     await this.mealPlan.split(' ').forEach(element => {
+//         meal.push(element)
+//     });
+//     await this.activities.split(' ').forEach(element => {
+//         act.push(element)
+//     })
+//     this.packageTypes = packagetypes
+//     this.mealPlan = meal
+//     this.activities = act
+//     next()
+// })
+
 module.exports = mongoose.model('packages', PackagesSchema);
 
