@@ -70,6 +70,28 @@ const PackagesSchema =new mongoose.Schema({
         type: Number,
         min: [1, 'Rating must be above 1.0'],
         max: [5, 'Rating must be below 5.0'],
+    },
+    mostview:{
+        type:Number,
+        default:0
+    },
+    mostexpensive:{
+        type:Number,
+    },
+    mostcheapest:{
+        type:Number,
+    },
+    mostbuy:{
+        type:Number,
+        default:0
+    },
+    userbuy:{
+        type:mongoose.Schema.ObjectId,
+        ref:'User'
+    },
+    packageLimit:{
+        type:Number,
+        default:0
     }
 },{timestamps:true});
 // PackagesSchema.pre('validate',async function(next){
