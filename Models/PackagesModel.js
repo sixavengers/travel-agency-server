@@ -86,8 +86,11 @@ const PackagesSchema =new mongoose.Schema({
         default:0
     },
     userbuy:{
+       type:Array,
+       id:{
         type:mongoose.Schema.ObjectId,
         ref:'User'
+       }
     },
     packageLimit:{
         type:Number,
