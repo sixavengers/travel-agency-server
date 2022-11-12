@@ -52,12 +52,31 @@ const createPackage = async (req, res) => {
         res.status(500).send({ success: false, message: error?.message });
     }
 }
-// ------get getPackage
+// -----------------Get All by owner id-----------------
 const getpackagebyowner = async (req, res) => {
 try {
-    
+    const id = req.userData.id;
+    const findUser = await User.findById(id);
+    if (findUser.role !== 'manager' && findUser.role !== 'admin') {
+        return res.status(401).json({
+            status: false,
+            messages: "You dont have permission to access this route"
+        })
+    }
+    const package = await Packages.find({createBy:id});
+    if(!package){
+        return res.status(404).json({
+            status: false,
+            messages: "Package Not Found"
+        })
+    }
+     res.send({
+        status: true,
+        messages: "Package Found",
+        data: package
+     })
 } catch (error) {
-    
+    res.status(500).json({ success: false, message: error?.message });
 }
 }
 

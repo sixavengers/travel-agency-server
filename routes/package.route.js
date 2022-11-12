@@ -8,6 +8,9 @@ const route = require('express').Router();
 // @desc Create a new package
 // @access admin and manager
 route.post('/createpackage',authUser,package.createPackage)
+// @route POST api/package/getpackagebyowner
+// @desc get all packages by user id
+// @access package owner
 route.get('/getpackagebyowner',authUser,package.getpackagebyowner)
 
 module.exports = route;
