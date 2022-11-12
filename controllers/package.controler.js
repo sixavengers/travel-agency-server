@@ -52,5 +52,13 @@ const createPackage = async (req, res) => {
         res.status(500).send({ success: false, message: error?.message });
     }
 }
+// ------get getPackage
+const getpackagebyowner = async (req, res) => {
+try {
+    
+} catch (error) {
+    
+}
+}
 
-module.exports = {createPackage}
+module.exports = {createPackage,getpackagebyowner}

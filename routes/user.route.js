@@ -53,7 +53,7 @@ router.post('/updateprofile',authUser,profile.updateProfile)
 // @route POST api/users/updateprofileimage
 // @desc changes profileimg using id
 // @access private
-router.post('/updateprofileimage',authUser,imgUpload.single('profile'),uploadCloudinary,profile.updateProfileImage)
+router.patch('/updateprofileimage',authUser,imgUpload.single('profile'),uploadCloudinary,profile.updateProfileImage)
 // @route POST api/users/users
 // @desc get all users
 // @access private only admin
