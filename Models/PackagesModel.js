@@ -5,6 +5,10 @@ const PackagesSchema =new mongoose.Schema({
         type: String,
         required: [true, 'Please add a name'],
         trim: true,
+        validate:{
+            validator:(value)=>validator.isLength(value,{min:3,max:40}),
+            messages:'Name must be between 3 and 40 characters'
+        }
     },
     origin:{
         type: String,
