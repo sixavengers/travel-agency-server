@@ -116,7 +116,7 @@ const sendVerificationEmail = async(req,res)=>{
       messages: "Email Verification Link has been sent to your email",
     });
   } catch (error) {
-    res.status(500).json({ messages: error?.messages });
+    res.status(500).send({ success: false, message: error?.message });
   }
 }
 

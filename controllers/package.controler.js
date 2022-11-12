@@ -49,7 +49,7 @@ const createPackage = async (req, res) => {
             data: package
         })
     } catch (error) {
-        res.status(500).json({ messages: error?.messages });
+        res.status(500).send({ success: false, message: error?.message });
     }
 }
 

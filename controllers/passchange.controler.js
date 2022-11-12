@@ -13,7 +13,7 @@ const findUser = async(req,res)=>{
       }
       res.status(200).json({ messages: "User Found",user:user });
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
     }
   }
   const sendResetPasswordCode = async(req,res)=>{
@@ -39,7 +39,7 @@ const findUser = async(req,res)=>{
         messages: "Email Reset Code Has Been Send To Your Email",
       });
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
     }
   }
  const validateResetCode = async (req, res) => {
@@ -60,7 +60,7 @@ const findUser = async(req,res)=>{
         messages: "Code Valid"
       });
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
     }
   };
 //   -----------------Reset Password-----------------
@@ -84,7 +84,7 @@ const findUser = async(req,res)=>{
             messages: "password changed successfully",
           });
         } catch (error) {
-          res.status(500).json({ messages: error?.messages });
+          res.status(500).send({ success: false, message: error?.message });
         }
 };
 // -----------------Changes Password With Old Password-----------------
@@ -107,7 +107,7 @@ const changesPasswordWithOldPassword = async (req,res) => {
                 messages: "password changed successfully",
               })
             } catch (error) {
-              res.status(500).json({ messages: error?.messages });
+              res.status(500).send({ success: false, message: error?.message });
             }
 }
     module.exports = {

@@ -40,7 +40,7 @@ const updateProfile = async (req, res) => {
         getuser
       })
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
     }
   }
   // -----------------get all users-----------------
@@ -73,7 +73,7 @@ const users = async (req, res) => {
     // -----------------Get total users-----------------
     res.send({ success: true, message: "All Users",users:users });
   } catch (error) {
-    res.status(500).json({ messages: error?.messages });
+    res.status(500).send({ success: false, message: error?.message });
   }
   }
   // -----------------get user by id-----------------
@@ -93,7 +93,7 @@ const users = async (req, res) => {
       }
       res.send({ success: true, message: "User By Id",user:user });
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
       
     }
   }
@@ -127,7 +127,7 @@ const users = async (req, res) => {
     await user.save();
     res.send({ success: true, message: "User Role Changed Successfully",user:user });
   } catch (error) {
-    res.status(500).json({ messages: error?.messages });
+    res.status(500).send({ success: false, message: error?.message });
   }
   }
   // -----------------delete user-----------------
@@ -153,7 +153,7 @@ const users = async (req, res) => {
       await user.remove();
       res.send({ success: true, message: "User Deleted Successfully"});
     } catch (error) {
-      res.status(500).json({ messages: error?.messages });
+      res.status(500).send({ success: false, message: error?.message });
     }
   }
     module.exports = { updateProfile,updateProfileImage,users,userbyid,changeRole,deleteUser
