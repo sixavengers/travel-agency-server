@@ -13,6 +13,6 @@ route.get('/getpackagebyowner',authUser,package.getpackagebyowner)
 // @route POST api/package/updatepackage
 // @desc update package by id
 // @access admin and manager
-route.patch('/updatepackage',authUser,package.updatepackage)
+route.patch('/updatepackage/:id',authUser,package.updatepackage)
 
 module.exports = route;

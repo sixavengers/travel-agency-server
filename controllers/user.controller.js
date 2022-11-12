@@ -35,7 +35,7 @@ const register = async (req, res) => {
     res.send({ success: true, message: "User Created Successfully Please Check Your Email To Activate Your Account",user:newUser,token:token });
     ;
    } catch (error) {
-     res.status(500).send({ success: false, message: error?.message });
+     res.status(500).send({ success: false, messages: error?.message });
    }
 };
 // ------Account Activate
@@ -62,7 +62,7 @@ const activateAccount = async(req,res)=>{
    await user.save();
     res.send({ success: true, message: "Account Activated Successfully",user:user});
    } catch (error) {
-    res.status(500).send({ success: false, message: error?.message });
+    res.status(500).send({ success: false, messages: error?.message });
    }
 }
 /* Login User */
@@ -87,7 +87,7 @@ const login = async (req, res) => {
     const token = genaretCode({ id: user._id.toString() }, "7d");
     res.send({ success: true, message: "Login Successfully", user:user, token: token });
   } catch (error) {
-    res.status(500).send({ success: false, message: error?.message });
+    res.status(500).send({ success: false, messages: error?.message });
   }
 };
 
@@ -116,7 +116,7 @@ const sendVerificationEmail = async(req,res)=>{
       messages: "Email Verification Link has been sent to your email",
     });
   } catch (error) {
-    res.status(500).send({ success: false, message: error?.message });
+    res.status(500).send({ success: false, messages: error?.message });
   }
 }
 
