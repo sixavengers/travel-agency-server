@@ -40,7 +40,8 @@ const updateProfile = async (req, res) => {
         getuser
       })
     } catch (error) {
-      res.status(500).send({ success: false, message: error?.message });
+      console.log('hello');
+      res.status(500).send(error);
     }
   }
   // -----------------get all users-----------------

@@ -21,7 +21,7 @@ exports.uploadCloudinary = async (req, res,next) => {
          // -------send the result to the client
         next();
     } catch (error) {
-        res.status(500).json({ messages: error?.messages });    
+        res.status(500).json({ success: false, message: error?.message });    
     }
 }
 // remove temp file
