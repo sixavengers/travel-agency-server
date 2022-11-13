@@ -69,5 +69,5 @@ router.post('/change-role/:id' ,authUser,profile.changeRole)
 // @route POST api/users/delete-user
 // @desc delete user by id
 // @access private only admin
-router.post('/delete-user/:id' , authUser,profile.deleteUser)
+router.delete('/delete-user/:id' , authUser,profile.deleteUser)
 module.exports = router;

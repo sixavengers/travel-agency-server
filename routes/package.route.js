@@ -10,9 +10,14 @@ route.post('/createpackage',authUser,package.createPackage)
 // @desc get all packages by user id
 // @access admin and manager
 route.get('/getpackagebyowner',authUser,package.getpackagebyowner)
+route.get('/cheackpackage/:id',authUser,package.cheackpackage)
+route.patch('/activepackage/:id',authUser,package.activepackage)
 // @route POST api/package/updatepackage
 // @desc update package by id
 // @access admin and manager
 route.patch('/updatepackage/:id',authUser,package.updatepackage)
-
+// @route POST api/package/deletepackage
+// @desc deletepackage package by id
+// @access admin and manager
+route.delete('/deletepackage/:id',authUser,package.deletepackage)
 module.exports = route;

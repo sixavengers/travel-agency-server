@@ -1,5 +1,6 @@
 const User = require('../Models/User');
 const Packages = require('../Models/PackagesModel');
+const { adminMail, serviceEmail } = require('../helpers/WelcomeMail');
 const createPackage = async (req, res) => {
     try {
         const id = req.userData.id;
@@ -39,19 +40,108 @@ const createPackage = async (req, res) => {
             act.push(element)
         })
         const package = await Packages.create(req.body);
-        package.isAvailable = true;
+        package.isAvailable = false;
         package.createBy = id;
         package.packageTypes = packagetypes;
         package.mealPlan = meal;
         package.activities = act;
         await package.save();
+        const mail = []
+        const admin = await User.find({role:'admin'});
+        admin.forEach(element => {  
+            mail.push(element.email)
+        })
+        const url = `http://localhost:3000/api/package/createpackage/${package._id}`
+        mail.map(async (element) => {
+            await adminMail(package?.name,element,url,"Please Approve This Package");
+        })
         await res.send({
             status: true,
-            messages: "Package Created Successfully",
+            messages: "Package Created Successfully and Waiting for Admin Approval",
             data: package
         })
     } catch (error) {
         res.status(500).send({ success: false, messages: error?.message });
+    }
+}
+const cheackpackage = async (req, res) => {
+    try {
+        const adminId = req.userData.id;
+        const findUser = await User.findById(adminId);
+        if (findUser.role !== 'admin') {
+            return res.status(401).json({
+                status: false,
+                messages: "You dont have permission to access this route"
+            })
+        }
+        const {id} = req.params;
+        const package = await Packages.findById(id);
+        if(!package){
+            return res.status(404).json({
+                status: false,
+                messages: "Package Not Found"
+            })
+        }
+        res.send({
+            status: true,
+            messages: "Package Found",
+            data: package
+        })
+    } catch (error) {
+        res.status(500).json({ success: false, messages: error?.message });
+    }
+}
+const activepackage = async (req, res) => {
+    try {
+        const adminid = req.userData.id;
+        const findUser = await User.findById(adminid);
+        if (findUser.role !== 'admin') {
+            return res.status(401).json({
+                status: false,
+                messages: "You dont have permission to access this route"
+            })
+        }
+        const {id} = req.params;
+        const package = await Packages.findById(id);
+        const packageownerid = package.createBy;
+        const packageowner = await User.findById(packageownerid);
+        const ownermail = packageowner.email;
+        if(!package){
+            return res.status(404).json({
+                status: false,
+                messages: "Package Not Found"
+            })
+        }
+        if(package.isAvailable === true){
+            return res.status(400).json({
+                status: false,
+                messages: "Package Already Active"
+            })
+        }
+        const {data} = req.body;
+        if(data=== 'true'){
+            package.isAvailable = true;
+            await package.save();
+            serviceEmail(ownermail,"Your Package is Active Now","Your Package is Active Now");
+            res.send({
+                status: true,
+                messages: "Package is Active",
+                data: package
+            })
+
+        }
+       else{
+        package.isAvailable = false;
+        await package.save();
+        serviceEmail(ownermail,"Your Package is Dicline by Admin","Your Package is Dicline by Admin");
+        res.send({
+            status: true,
+            messages: "Package is Deactive",
+            data: package
+        })
+       }
+    } catch (error) {
+        res.status(500).json({ success: false, messages: error?.message });
     }
 }
 // -----------------Get All by owner id-----------------
@@ -137,4 +227,28 @@ const updatepackage = async (req, res) => {
         res.status(500).json({ success: false, messages: error?.message });
     }
 }
-module.exports = {createPackage,getpackagebyowner,updatepackage}
+const deletepackage = async (req, res) => {
+    try {
+        // ------------------get user id from token------------------
+        const userid = req.userData.id;
+        // ------------------find user by user id------------------
+        const findUser = await User.findById(userid);
+        if (findUser.role !== 'manager' && findUser.role !== 'admin') {
+            return res.status(401).json({
+                status: false,
+                messages: "You dont have permission to delete package"
+            })
+        }
+        const {id} = req.params;
+        const package = await Packages.deleteOne(id);
+        res.send({
+            status: true,
+            messages: "Package Deleted Successfully",
+            data: package
+        })
+    } catch (error) {
+        res.status(500).json({ success: false, messages: error?.message });
+    }
+}
+module.exports = {createPackage,getpackagebyowner,updatepackage,deletepackage,cheackpackage,activepackage
+}
