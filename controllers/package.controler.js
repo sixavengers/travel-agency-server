@@ -288,8 +288,9 @@ const getAllPackage = async (req, res) => {
       recent,
       activities,
       origin,
-      destination
-     
+      destination,
+      startPrice,
+      endPrice,
     } = req.query;
 
     let filter = {};
@@ -319,31 +320,29 @@ const getAllPackage = async (req, res) => {
       filter.activities = { $in: activities.split(",") };
     }
 
-    if(origin || destination){
-        filter.$and = [
-            {origin:  { $regex: origin, $options: 'i' } },
-            {destination: {$regex: destination, $options: "i"}}
-        ]
-    }   
+    if (origin || destination) {
+      filter.$and = [
+        { origin: { $regex: origin, $options: "i" } },
+        { destination: { $regex: destination, $options: "i" } },
+      ];
+    }
 
-    
+    if (startPrice || endPrice) {
+      console.log(startPrice, endPrice);
+      filter.$and = [
+        { price: { $gte: startPrice } },
+        { price: { $lte: endPrice } },
+      ];
+    }
+
     let sort = {};
 
-    if(isPrice){
-        sort.price = "-1"
+    if (isPrice) {
+      sort.price = "-1";
     }
-    if(recent){
-        sort.createdAt = '-1'
+    if (recent) {
+      sort.createdAt = "-1";
     }
-
-
-    
-
-
-
-
-
-
 
     const package = await Packages.find(filter).sort(sort);
     if (!package) {
