@@ -1,6 +1,7 @@
 const User = require("../Models/User");
 const Packages = require("../Models/PackagesModel");
 const { adminMail, serviceEmail } = require("../helpers/WelcomeMail");
+const { recommendationengine_v1beta1 } = require("googleapis");
 const createPackage = async (req, res) => {
   try {
     const id = req.userData.id;
@@ -286,6 +287,9 @@ const getAllPackage = async (req, res) => {
       mealPlan,
       recent,
       activities,
+      origin,
+      destination
+     
     } = req.query;
 
     let filter = {};
@@ -315,22 +319,31 @@ const getAllPackage = async (req, res) => {
       filter.activities = { $in: activities.split(",") };
     }
 
+    if(origin || destination){
+        filter.$and = [
+            {origin:  { $regex: origin, $options: 'i' } },
+            {destination: {$regex: destination, $options: "i"}}
+        ]
+    }   
+
+    
     let sort = {};
-    /* sort by date */
-    if (JSON.parse(recent)) {
-      sort.createdAt = 1;
-    } else {
-      sort.createdAt = -1;
+
+    if(isPrice){
+        sort.price = "-1"
+    }
+    if(recent){
+        sort.createdAt = '-1'
     }
 
-    /* sort by price */    
-    if (JSON.parse(isPrice)) {
-      sort.price = 1;
-    } else {
-      sort.price = -1;
-    }
-   
+
     
+
+
+
+
+
+
 
     const package = await Packages.find(filter).sort(sort);
     if (!package) {
