@@ -276,21 +276,63 @@ const deletepackage = async (req, res) => {
 /* get all package*/
 const getAllPackage = async (req, res) => {
   try {
-    const { page, limit, packageClass, packageType } = req.query;
+    const {
+      page,
+      limit,
+      packageClass,
+      packageType,
+      duration,
+      isPrice,
+      mealPlan,
+      recent,
+      activities,
+    } = req.query;
 
     let filter = {};
 
+    /* filter by package class */
     if (packageClass) {
       filter.packageClassess = packageClass;
     }
-    
+
+    /* filter by package type */
     if (packageType) {
-        filter.packageTypes = packageType;
+      filter.packageTypes = { $in: packageType.split(",") };
     }
 
-    console.log(packageType);
+    /* filter by duration */
+    if (duration) {
+      filter.duration = duration;
+    }
 
-    const package = await Packages.find(filter);
+    /* filter by mealPlan */
+    if (mealPlan) {
+      filter.mealPlan = { $in: mealPlan.split(",") };
+    }
+
+    /* filter by activities */
+    if (activities) {
+      filter.activities = { $in: activities.split(",") };
+    }
+
+    let sort = {};
+    /* sort by date */
+    if (JSON.parse(recent)) {
+      sort.createdAt = 1;
+    } else {
+      sort.createdAt = -1;
+    }
+
+    /* sort by price */    
+    if (JSON.parse(isPrice)) {
+      sort.price = 1;
+    } else {
+      sort.price = -1;
+    }
+   
+    
+
+    const package = await Packages.find(filter).sort(sort);
     if (!package) {
       return res.status(404).json({
         status: false,
