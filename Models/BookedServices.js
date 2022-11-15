@@ -12,7 +12,7 @@ const BookedServicesSchema = new mongoose.Schema({
     },
     service: {
         type: mongoose.Types.ObjectId,
-        ref: "Package",
+        ref: "packages",
     },
     tnxId:{
         type: String,

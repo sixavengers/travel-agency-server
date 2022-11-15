@@ -45,14 +45,12 @@ const PackagesSchema =new mongoose.Schema({
         type:Array,
         required: [true, 'Please add activities']   
     },
-    jurneyDate:{
-        type: String,
-        required: [true, 'Please add a jurneyDate'],
-        default: new Date().toJSON().slice(0,10).replace(/-/g,'/')
+    duration:{
+        type: Number,
+        required: [true, 'Please add a duration'],
     },
     returnDate:{
         type: String,
-        required: [true, 'Please add a returnDate'],
     },
     maxGroupSize: {
         type: Number,

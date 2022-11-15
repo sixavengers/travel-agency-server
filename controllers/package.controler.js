@@ -12,20 +12,7 @@ const createPackage = async (req, res) => {
             })
         }
         // ------------------Get Data From Body------------------
-        const {jurneyDate,returnDate,packageTypes,mealPlan,activities} = req.body
-        if(new Date().toJSON().slice(0,10).replace(/-/g,'/')>jurneyDate){
-            return res.status(400).json({
-                status: false,
-                messages: "Jurney Date must be greater than today"
-            })
-        }
-        // ------------------Cheack is date is valid------------------
-        if(jurneyDate > returnDate || jurneyDate === returnDate){
-            return res.status(400).json({
-                status: false,
-                messages: "Jurney Date Must Be Less Than Return Date and Jurney Date Must Be Less Than Today"
-            })
-        }
+        const {packageTypes,mealPlan,activities} = req.body
         // make array of packageTypes and mealPlan and activities
         const packagetypes = []
         const meal = []
