@@ -276,13 +276,19 @@ const deletepackage = async (req, res) => {
 /* get all package*/
 const getAllPackage = async (req, res) => {
   try {
-    const { page, limit, packageClass } = req.query;
+    const { page, limit, packageClass, packageType } = req.query;
 
     let filter = {};
 
     if (packageClass) {
       filter.packageClassess = packageClass;
     }
+    
+    if (packageType) {
+        filter.packageTypes = packageType;
+    }
+
+    console.log(packageType);
 
     const package = await Packages.find(filter);
     if (!package) {
