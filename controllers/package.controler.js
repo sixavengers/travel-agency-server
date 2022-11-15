@@ -281,10 +281,10 @@ const getAllPackage = async (req, res) => {
     let filter = {};
 
     if (packageClass) {
-      console.log(packageClass);
+      filter.packageClassess = packageClass;
     }
 
-    const package = await Packages.find();
+    const package = await Packages.find(filter);
     if (!package) {
       return res.status(404).json({
         status: false,
@@ -294,6 +294,7 @@ const getAllPackage = async (req, res) => {
     res.send({
       status: true,
       messages: "Package Found",
+      count: package.length,
       data: package,
     });
   } catch (error) {
