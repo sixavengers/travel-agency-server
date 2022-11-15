@@ -171,20 +171,7 @@ const updatepackage = async (req, res) => {
             })
         }
         const {id} = req.params;
-        const {price,packageClassess,packageTypes,mealPlan,activities,jurneyDate,returnDate,maxGroupSize} = req.body
-        if(new Date().toJSON().slice(0,10).replace(/-/g,'/')>jurneyDate){
-            return res.status(400).json({
-                status: false,
-                messages: "Jurney Date must be greater than today"
-            })
-        }
-         // ------------------Cheack is date is valid------------------
-         if(jurneyDate > returnDate || jurneyDate === returnDate){
-            return res.status(400).json({
-                status: false,
-                messages: "Jurney Date Must Be Less Than Return Date and Jurney Date Must Be Less Than Today"
-            })
-        }
+        const {price,packageClassess,packageTypes,mealPlan,activities,maxGroupSize} = req.body
         // make array of packageTypes and mealPlan and activities
         const packagetypes = []
         const meal = []
@@ -198,7 +185,7 @@ const updatepackage = async (req, res) => {
         await activities.split(' ').forEach(element => {
             act.push(element)
         })
-        const package = await Packages.updateMany({_id:id},{$set:{price,packageClassess,packageTypes:packagetypes,mealPlan:meal,activities:act,jurneyDate,returnDate,maxGroupSize}});
+        const package = await Packages.updateMany({_id:id},{$set:{price,packageClassess,packageTypes:packagetypes,mealPlan:meal,activities:act,maxGroupSize}});
         if(!package){
             return res.status(404).json({
                 status: false,
