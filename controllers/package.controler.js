@@ -328,7 +328,6 @@ const getAllPackage = async (req, res) => {
     }
 
     if (startPrice || endPrice) {
-      console.log(startPrice, endPrice);
       filter.$and = [
         { price: { $gte: startPrice } },
         { price: { $lte: endPrice } },
