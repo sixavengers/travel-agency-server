@@ -85,17 +85,12 @@ const PackagesSchema =new mongoose.Schema({
         type:Number,
         default:0
     },
-    userbuy:{
-       type:Array,
-       id:{
-        type:mongoose.Schema.ObjectId,
-        ref:'User'
-       }
-    },
-    packageLimit:{
-        type:Number,
-        default:0
-    }
+    userbuy:[
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: "User",
+        },
+      ],
 },{timestamps:true});
 module.exports = mongoose.model('packages', PackagesSchema);
 

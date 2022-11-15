@@ -10,7 +10,13 @@ route.post('/createpackage',authUser,package.createPackage)
 // @desc get all packages by user id
 // @access admin and manager
 route.get('/getpackagebyowner',authUser,package.getpackagebyowner)
+// @route POST api/package/createpackage/:id
+// @desc get a packages by user id and package id
+// @access admin and manager
 route.get('/cheackpackage/:id',authUser,package.cheackpackage)
+// @route POST api/package/activepackage/:id
+// @desc active a packages by user id and package id
+// @access admin
 route.patch('/activepackage/:id',authUser,package.activepackage)
 // @route POST api/package/updatepackage
 // @desc update package by id

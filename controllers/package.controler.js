@@ -250,5 +250,48 @@ const deletepackage = async (req, res) => {
         res.status(500).json({ success: false, messages: error?.message });
     }
 }
-module.exports = {createPackage,getpackagebyowner,updatepackage,deletepackage,cheackpackage,activepackage
+// // -----------------Buy A Package-----------------
+// const buyPackage = async (req, res) => {
+//     try {
+//         const uerId = req.userData.id;
+//         const {id} = req.params;
+//         const package = await Packages.findById(id);
+//         if(!package){
+//             return res.status(404).json({
+//                 status: false,
+//                 messages: "Package Not Found"
+//             })
+//         }
+//         const user = await User.findById(uerId);
+//         if(!user){
+//             return res.status(404).json({
+//                 status: false,
+//                 messages: "User Not Found"
+//             })
+//         }
+//         if(user.role !== 'user'){
+//             return res.status(400).json({
+//                 status: false,
+//                 messages: "You are not a user"
+//             })
+//         }
+//         if(package.isAvailable === false){
+//             return res.status(400).json({
+//                 status: false,
+//                 messages: "Package is not available"
+//             })
+//         }
+//         package.userbuy.push(uerId);
+//         await package.save();
+//         res.send({
+//             status: true,
+//             messages: "Package Buy Successfully"
+//         })
+
+//     } catch (error) {
+//         res.status(500).json({ success: false, messages: error?.message });
+//     }
+// }
+module.exports = {createPackage,getpackagebyowner,updatepackage,deletepackage,cheackpackage,activepackage,
+    buyPackage
 }
