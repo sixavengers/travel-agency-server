@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
-const colors = require('colors');
-const databaseConnection = (app) => {
-  mongoose.connect(
+require("colors");
+const databaseConnection = async (app) => {
+  const conn = await mongoose.connect(
     process.env.DATABASE_URL || "mongodb://localhost:27017/travel-agency",
     { useNewUrlParser: true, useUnifiedTopology: true }
   );
-  mongoose.connection.on("connected", () => {
-    console.log(`Mongoose is connected`.red.bold);
-  });
+  console.log(`Database Connected: ${conn.connection.host}`.cyan.underline);
 };
 
 module.exports = { databaseConnection };
