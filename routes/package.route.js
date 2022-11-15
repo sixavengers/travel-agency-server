@@ -26,4 +26,12 @@ route.patch('/updatepackage/:id',authUser,package.updatepackage)
 // @desc deletepackage package by id
 // @access admin and manager
 route.delete('/deletepackage/:id',authUser,package.deletepackage)
+
+
+// @route GET api/package/all
+// @desc Get all packages
+// @access Public
+route.get('/all',package.getAllPackage)
+
+
 module.exports = route;
