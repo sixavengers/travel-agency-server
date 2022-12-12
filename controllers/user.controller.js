@@ -7,27 +7,28 @@ const { genaretCode } = require("../helpers/genaretCodeReset");
 /* Register User */
 const register = async (req, res) => {
   try {
+    const { password, name, email } = req.body;
     // -----------------Get user info from request body-----------------
-    const user = await userServices.registerUserService(req.body);
+    const user = await User.findOne({
+      email,
+    });
+
     // -----------------Check if user already exist-----------------
-    
-    
     if (user) {
-      return res
-        .status(400)
-        .send({ success: false, message: "User Already Exists" });
+      res.status(400).send({ success: false, message: "User Already Exists" });
+      return;
     }
-    const { password } = req.body;
+   
     // -------------hash password----------------
     const hashPassword = await bcrypt.hash(password, 12);
+
     // -----------------Create new user------------------
-  
-    const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
+    const newUser = new User({
+      name,
+      email,
       password: hashPassword,
     });
-    console.log(hashPassword);
+
     // -----------------Generate email verification token-----------------
     const emailVerificationToken = genaretCode(
       { id: newUser._id.toString() },
@@ -41,13 +42,10 @@ const register = async (req, res) => {
       url,
       "Welcome To Travel Agency"
     );
+
     //  -----------------Create and assign token-----------------
     const token = genaretCode({ id: newUser._id.toString() }, "7d");
-    if (!newUser) {
-      return res
-        .status(400)
-        .send({ success: false, message: "User Can't Be Created" });
-    }
+    await newUser.save();
     res.send({
       success: true,
       message:
@@ -69,17 +67,13 @@ const activateAccount = async (req, res) => {
     // -----------------Check if user already verified-----------------
     const user = await userServices.activateAccountService(id);
     if (!user) {
-      // -----------------If user not found-----------------
       return res.status(400).json({ messages: "User Not Found" });
     }
     // -----------------Check user valid or not-----------------
     if (id !== userByid.id) {
-      return res
-        .status(400)
-        .json({
-          messages:
-            "You Don't Have The Authorization to Complete The Operation",
-        });
+      return res.status(400).json({
+        messages: "You Don't Have The Authorization to Complete The Operation",
+      });
     }
     if (user.isverify === true) {
       return res.status(400).json("Your Account Is Already Activated");
