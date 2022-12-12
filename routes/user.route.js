@@ -17,7 +17,7 @@ router.post("/register", userController.register);
 // @route POST api/users/login
 // @desc login user and return JWT token
 // @access Public
-router.get('/login',userController.login);
+router.post('/login',userController.login);
 
 
 // @route POST api/users/activate
@@ -41,7 +41,7 @@ router.post("/finduser",passchangecontroler.findUser);
 // @route get api/users/current
 // @desc Return current user
 // @access Private
-router.get("/current",  userController.currentUser);
+router.get("/current", authUser, userController.currentUser);
 
 
 // @route POST api/users/sendResetPasswordCode

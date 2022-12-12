@@ -18,7 +18,7 @@ const register = async (req, res) => {
       res.status(400).send({ success: false, message: "User Already Exists" });
       return;
     }
-   
+
     // -------------hash password----------------
     const hashPassword = await bcrypt.hash(password, 12);
 
@@ -114,10 +114,11 @@ const login = async (req, res) => {
     }
     // -----------------Create and assign token-----------------
     const token = genaretCode({ id: user._id.toString() }, "7d");
+    const { password: pass, ...rest } = user.toObject();
     res.send({
       success: true,
       message: "Login Successfully",
-      user: user,
+      user: rest,
       token: token,
     });
   } catch (error) {
@@ -127,7 +128,21 @@ const login = async (req, res) => {
 
 /* Current User */
 const currentUser = async (req, res) => {
-  res.send({ success: true, message: "Current User" });
+  const id = req.userData.id;
+  try {
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res.status(400).json({ messages: "User Not Found" });
+    }
+
+    res.send({
+      success: true,
+      message: "User Found",
+      user: user,
+    });
+  } catch (error) {
+    res.status(500).send({ success: false, messages: error?.message });
+  }
 };
 // send verification email again
 const sendVerificationEmail = async (req, res) => {
